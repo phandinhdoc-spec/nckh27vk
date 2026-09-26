@@ -1,0 +1,854 @@
+&
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG
+TOÀN QUỐC LẦN THỨ 21 NĂM 2025
+
+TÊN ĐỀ TÀI DỰ THI:
+
+“GIẢI PHÁP ĐÈN TÍN HIỆU HỖ TRỢ
+VIỆC ĐÓN TRẢ KHÁCH TẠI CÁC
+TRẠM XE BUS”
+
+LĨNH VỰC DỰ THI: Bảo vệ môi trường và phát triển kinh tế
+TÁC GIẢ:
+
+o Nguyễn Hiếu Khang - Lớp 8A1
+Trường THPT chuyên Trần Đại Nghĩa, Q1, Tp. Hồ Chí Minh.
+o Vũ Lương Huy- Lớp 8A1
+Trường THPT chuyên Trần Đại Nghĩa, Q1, Tp. Hồ Chí Minh.
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+TÓM TẮT ĐỀ TÀI: “Giải pháp đèn tín hiệu hỗ trợ việc đón trả khách tại các
+trạm xe bus”
+Tính mới của Đề tài: Sau khi nghiên cứu tổng quan tình hình nghiên cứu trong và ngoài
+nước liên quan đến các giải pháp đón trả khách tại các trạm xe bus, nhóm chúng em
+nhận thấy đề tài có những tính mới sau:
+§
+
+Thứ nhất: Đây là mô hình đèn tín hiệu chưa được thực hiện áp dụng mô hình thực
+tế tại Thành phố Hồ Chí Minh.
+
+§
+
+Thứ hai: Đề tài phân tích được thực trạng tình hình đón trả khách tại các trạm xe
+bus trên địa bàn Thành phố Hồ Chí Minh để thấy được những vấn đề bất cấp cần
+giải quyết, nhằm hướng tới sử dụng dịch vụ giao thông bằng xe bus văn hóa và
+thông minh hơn.
+
+Tính khoa học: Kết quả nghiên cứu của Đề tài sẽ này góp phần định hướng, đề xuất
+được giải pháp đó là giải quyết vấn đề thuận tiện, văn minh, an toàn cho hành khách tại
+các trạm đón trả khách xe bus hiện nay trên cơ sở ứng dụng các giải pháp công nghệ
+như: hệ thống nhận dạng tín hiệu, hệ thống ứng dụng IoTs cho việc quản lý vào điều
+hành giao thông giúp tiết kiệm về thời gian, góp phần xây dựng thành phố thông minh
+trên cơ sở giao thông thông minh.
+Ngoài ra, giải pháp của đề tài được đưa ra trên quá trình phân tích thực trạng, kế
+thừa và áp dụng các công nghệ đang được áp dụng như hệ thống GPS, hệ thống điều
+khiển bằng tín hiệu,…Việc áp dụng các công nghệ này giúp giải pháp được thực hiện
+có hiệu quả và tiện ích cho người sử dụng hơn.
+Tính thực tiễn: Khi mô hình được áp dụng vào thực tế sẽ tạo điều kiện thuận lợi cho
+hành khách chọn lựa tuyến xe nhanh chóng, chính xác và dễ dàng với nhiều đối tượng;
+tạo hiệu ứng tích cực cho hoạt động giao thông công cộng – hạn chế phương tiện cá
+nhân.
+- Khả năng áp dụng thực tế tại khu vực có điểm đón trả của xe bus cao.
+- Việc triển khai xây dựng mô hình này tại các trạm đón trả xe bus rất thuận lợi
+khi tại các thành phố lớn như Hà Nội, Thành phố Hồ Chí Minh các trạm đón trả khách
+có trang bị các thiết bị hiện đại như: thông tin số chuyến, thời gian xe đến, khoảng cách
+xe đến trạm,...
+1
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+Ngoài ra, khi áp dụng triển khai đề tài sẽ giúp các tài xế xe bus thuận tiện trong
+tiếp cận các đón trả tránh mất thời gian, đảm bảo an toàn hơn và hiệu quả trong vận
+chuyển hành khách.
+Tính cộng đồng: Khi mô hình áp dụng sẽ tạo hiệu ứng tích cực cho văn hóa sử dụng
+dịch vụ giao thông công cộng là xe bus, tạo nét văn hóa sử dụng văn minh hơn, thông
+minh hơn trong bối cảnh các thành phố lớn trên cả nước nói chung và tại Thành phố Hồ
+Chí Minh nói riêng đang phát triển theo hướng đô thị thông minh, đảm bảo thoải mái
+cho tinh thần con người và phục vụ đa dạng các đối tượng hành khách.
+Lĩnh vực dự thi: Bảo vệ môi trường và phát triển kinh tế
+Đề tài: GIẢI PHÁP ĐÈN TÍN HIỆU HỖ TRỢ VIỆC ĐÓN TRẢ KHÁCH TẠI
+CÁC TRẠM XE BUS.
+Tác giả:
+Ø Nguyễn Hiếu Khang.
+Ø Vũ Lương Huy
+Giáo viên hướng dẫn: Cô Đoàn Thị Bình
+Thời gian: Từ tháng 4/2022 đến tháng 07/2022.
+Địa điểm thực hiện Đề tài:
+Ø Trường THPT Chuyên Trần Đại Nghĩa, Q1, Thành phố Hồ Chí Minh.
+Ø Phòng RD – công ty Thinksmarts, Tp Thủ Đức, Thành phố Hồ Chí Minh.
+
+2
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+LỜI CẢM ƠN
+Chúng em: Nguyễn Hiếu Khang, Vũ Lương Huy xin chân thành cảm ơn ngôi
+trường Trần Chuyên dễ thương của chúng em đã cho con những buổi ban đầu chập
+chững làm quen với môn Nghiên cứu Khoa học tưởng chừng khô khan này, chúng con
+cũng xin chân thành cảm ơn thầy Trần Ngọc Anh – thầy Chủ nhiệm đầu tiên của chúng
+con dưới mái trường cấp 2, Thầy đã cho tụi con niềm đam mê, sự động viên để vượt qua
+khó khăn. Đặc biệt là Cô Đoàn Thị Bình, Giáo viên hướng dẫn chúng con – Cô luôn
+theo sát, hướng dẫn tận tình và luôn có mặt tại những nơi tụi con thuyết trình dự thi các
+cuộc thi về sáng tạo, và chúng con cũng không quên cảm ơn các cô chú lãnh đạo Công
+ty Thinksmarts – một Công ty luôn đi đầu trong việc ứng dụng các giải pháp công nghệ
+vào đời sống đã luôn ủng hộ, đồng hành trong quá trình thực hiện đề tài này của các con.
+Đặc biệt, cuối cùng chúng con muốn dành món quà nhỏ này cho ba mẹ những người
+hằng ngày luôn động viên, theo dõi từng bước đi của chúng con-đây chính là động lực
+lớn nhất để chúng con đi tiếp chặng đường tiếp theo.
+
+3
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+MỤC LỤC
+MỤC LỤC .......................................................................................................................
+DANH SÁCH HÌNH ẢNH .............................................................................................
+A. LÝ DO CHỌN ĐỀ TÀI............................................................................................
+B. CÂU HỎI NGHIÊN CỨU – VẤN ĐỀ NGHIÊN CỨU – MỤC TIÊU VÀ YÊU
+CẦU CỦA ĐỀ TÀI ...................................................................................................
+B1. CÂU HỎI NGHIÊN CỨU .............................................................................
+B2. VẤN ĐỀ NGHIÊN CỨU.................................................................................
+B3. MỤC TIÊU CỦA ĐỀ TÀI ..............................................................................
+B4. YÊU CẦU CỦA ĐỀ TÀI.................................................................................
+CHƯƠNG 1: KẾ HOẠCH VÀ PHƯƠNG PHÁP NGHIÊN CỨU ............................
+1.1.
+
+Kế hoạch nghiên cứu ..................................................................................
+
+1.2.
+
+Phương pháp nghiên cứu ...........................................................................
+
+CHƯƠNG 2: PHÂN TÍCH THỰC TRẠNG ........................................................... 12
+2.1. Thực trạng đón trả khách tại các trạm xe bus
+2.2. Thực trạng tại các trạm xe bus ......................................................................
+2.3. Đánh giá thực trạng ........................................................................................
+CHƯƠNG 3: PHÂN TÍCH CÁC YẾU TỐ ẢNH HƯỞNG .................................... 13
+3.1. Các yếu tố ảnh hưởng đến thực trạng việc đón trả khách xe bus hiện nay
+3.2. Đánh giá, nhận xét tác động của giải pháp ...................................................
+CHƯƠNG 4: GIẢI PHÁP THỰC HIỆN .................................................................. 14
+4.1. Mô tả cụ thể giải pháp ....................................................................................
+4.2. Mô hình giải pháp và hướng dẫn sử dụng cơ bản........................................
+4.3. Mô hình mở rộng.............................................................................................
+4.4. Xây dựng App ứng dụng ................................................................................
+4.5. Giải pháp để hệ thống hoạt động hiệu quả ...................................................
+CHƯƠNG 5: KẾT LUẬN. HƯỚNG PHÁT TRIỂN VÀ KIẾN NGHỊ ................. 15
+5.1. Kết luận ............................................................................................................
+5.2. Hướng phát triển của đề tài ...........................................................................
+5.3. Kiến nghị ..........................................................................................................
+TÀI LIỆU THAM KHẢO .......................................................................................... 16
+4
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+DANH SÁCH HÌNH ẢNH
+Hình 2.1. Thực trạng đón trả khách tại các trạm xe bus ...................................................
+Hình 2.2. Thực trạng tại các trạm xe bus ..........................................................................
+Hình 4.1. Mô tả ý tưởng của giải pháp .............................................................................
+Hình 4.2. Mô hình giải pháp của nhóm nghiên cứu .........................................................
+Hình 4.3. Sơ đồ nguyên lý hệ thống năng lượng mặt trời ................................................
+Hình 5.1. Xây dựng App ứng dụng phát triển mô hình xe bus thông minh .....................
+Hình 5.2 Mô hình kết hợp trạm xe bus với hệ thống năng lượng mặt trời .......................
+
+5
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+DANH SÁCH BẢNG
+Bảng 3.1. Các yếu tố ảnh hưởng đến số lượng hành khách sử dụng phương tiện xe bus
+Bảng 4.1. Hướng dẫn sử dụng mô hình của giải pháp ......................................................
+
+6
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+A. LÝ DO CHỌN ĐỀ TÀI
+Thành phố Hồ Chí Minh (Tp.HCM) là địa phương có nền kinh tế phát triển mạnh
+và năng động của nước ta. Không chỉ là một trung tâm về kinh tế, xã hội mà Tp.HCM
+là đầu mối quan trọng về giao thông vận tải, trong các hoạt động giao thông vận tải
+đường bộ thì hoạt động vận tải bằng xe bus xe bus hiện đang được phát triển mạnh và
+ngày càng hiện đại để đáp ứng nhu cần vận chuyển hành khách trong thành phố.
+Khi quan sát và sử dụng dịch vụ xe bus tại Tp.HCM thì chúng ta nhận thấy một
+vấn đề đó là tình trạng hành khách đón xe bus tại các trạm đón trả khách gặp một số bất
+tiện: khi muốn đón xe thì phải vẩy tay để báo hiệu tài xế xe bus tấp vô trạm để đón. Do
+từng trạm rất nhiều tuyến xe bus khác nhau nên việc vẩy tay ra hiệu có những bất tiện;
+thứ nhất là gây nhầm lẫn cho các tài xế xe bus khi hai hay nhiều tuyến xe cùng đến trạm
+đón trả khách cùng một lúc; thứ hai là hành khách muốn vẩy xe taxi dễ nhầm lẫn thành
+xe bus dẫn đến tình huống làm cùng một lúc xe taxi và xe bus đều cùng ghé trạm gây
+ách tắt giao thông.
+Nhằm giúp hạn chế tình trạng kẹt xe tại các điểm đón trả xe bus, đồng thời đảm
+bảo an toàn cho hành khách khi lên xuống xe, phục vụ hành khách tiện lợi và khoa học,
+tạo điều kiện thuận lợi cho tài xế quan sát đón trả khách an toàn và tiện lợi. Đó chính là
+lý do chúng em lựa chọn thực hiện đề tài nghiên cứu khoa học “Giải pháp nhận dạng
+tín hiêụ hành khách đón xe bus tại các trạm đón trả khách” tại Tp.HCM, đề tài này
+sẽ xây dựng giải pháp bằng cách sử dụng nút bấm để lựa chọn tuyến đi tại trạm xe bus.
+Việc thực hiện đề tài này theo chủ quan của nhóm sẽ rất cần thiết, tạo văn hóa giao thông
+thông tin, phục vụ hiệu quả và đa dạng cho nhiều đối tượng hành khách.
+
+B. CÂU HỎI NGHIÊN CỨU – VẤN ĐỀ NGHIÊN CỨU – MỤC
+TIÊU VÀ YÊU CẦU CỦA ĐỀ TÀI
+B1. CÂU HỎI NGHIÊN CỨU
+- Câu hỏi nghiên cứu 1: Những yếu tố nào dẫn tới việc các tài xế xe bus đón
+trả khách không đúng nơi quy định?
+- Câu hỏi nghiên cứu 2: Có cần thiết xây dựng các giải pháp mang tính khoa học
+để việc đón trả khách trở nên thuận tiện cho hành khách, bác tài xế không?
+7
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+- Câu hỏi nghiên cứu 3: Nội dung đề xuất giải pháp đèn tín hiệu hỗ trợ người
+đón xe bus tại các trạm đón trả khách có dễ áp dụng và triển khai không?
+
+B2. VẤN ĐỀ NGHIÊN CỨU
+Trên các phương tiện công cộng, đặc biệt là xe bus tại Tp.HCM thì chúng ta nhận
+thấy một vấn đề cần khắc phục, đó là tình trạng hành khách đón xe bus tại các trạm đón
+trả khách gặp một số bất tiện: khi muốn đón xe thì phải vẩy tay để báo hiệu tài xế xe bus
+tấp vô trạm để đón. Do từng trạm rất nhiều tuyến xe bus khác nhau nên việc vẩy tay ra
+hiệu có những bất tiện sau đây:
+Ø Gây nhầm lẫn cho các tài xế xe bus khi 2 hay nhiều tuyến xe cùng đến trạm đón
+trả khách cùng một lúc.
+Ø Hành khách muốn vẩy xe taxi dễ nhầm lẫn thành xe bus, dẫn đến tình huống
+làm cùng một lúc xe taxi và xe bus đều cùng ghé trạm gây ách tắt giao thông.
+Chính vì vậy, chúng em mong muốn đề xuất giải pháp nhận dạng tín hiêụ hành
+khách đón xe bus tại các trạm tại Tp.HCM. Giải pháp này sẽ giúp hạn chế tình trạng kẹt
+xe trước các trạm đón, trả khách do xe bus chạy vô trạm mà không có khách, sau đó lại
+quay ra và giúp tiết kiệm thời gian cho quá trình lưu thông của xe bus, cụ thể là giúp cho
+tài xế phát hiện từ xa là tại trạm đón có hành khách muốn lên xe bus tuyến mình không?
+Nếu không có thì tài xế có thể chạy qua trạm luôn không phải tấp vô trạm. Giải pháp
+này cũng giúp cho chúng ta hạn chế trường hợp xảy ra tai nạn vì khi hành khách ra ngoài
+vẩy tay dễ bị tai nạn do các xe đang lưu thông va vào. Bên cạnh đó, giải pháp này có
+hữu ích trong “trường hợp các hành khách hạn chế khả năng vẩy xe như bị tàn tật, chưa
+quen, sợ va quẹt giao thông,..” thì việc bấm nút lựa chọn tại trạm xe bus cũng là việc
+quan trọng và phục vụ được cho nhiều đối tượng, đặc biệt các đối tượng yếu thế trong
+xã hội.
+Để làm cơ sở cho việc xác định vấn đề nghiên cứu vừa thực tiễn và vừa có tính
+khoa học, đồng thời có tính mới, nhóm chúng em đã nghiên cứu tổng quan các công
+trình nghiên cứu trong và ngoài nước như sau:
+a. Các công trình nghiên cứu trong nước
+- TS Dư Phước Tân [2], Viện Nghiên cứu phát triển Tp.HCM, Hội thảo
+"Bàn về các giải pháp phát triển hệ thống vận tải hành khách công cộng TP.HCM", năm
+2015, tham luận này đề xuất giải pháp khai thông cho xe bus hoạt động như: tạo điều
+kiện cho vỉa hè thông thoáng, giúp người đi bộ đón xe bus thuận tiện, kiên quyết
+8
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+xử lý việc lấn chiếm buôn bán lòng lề đường, chưa kể hiện tượng xe máy leo lề, khi xe
+đông là khá phổ biến hiện nay, đã gây cản trở khách bộ hành đi lại trên các lề đường.
+- Tác giả Hữu Trọng [7], báo điện tử Công an Nghệ An, thứ Bảy, 29/07/2017,
+“Thực trạng và giải pháp đảm bảo ATGT trong hoạt động của xe bus”, Bài 2: Nhiều
+giải pháp nhằm giảm thiểu tai nạn giao thông do xe buýt gây ra, Việc điều chỉnh luồng,
+tuyến, số lượng xe bus trên địa bàn tỉnh được tiến hành; đồng thời, với việc xây dựng
+hệ thống bến đỗ, điểm trung chuyển, nhà chờ, đảm bảo khoa học, phù hợp với cơ sở hạ
+tầng. Kiên quyết đình chỉ và chấm dứt hoạt động các phương tiện không đúng quy chuẩn,
+tiêu chuẩn quy định; xây dựng các tiêu chí xe bus theo đúng quy định, nâng cao chất
+lượng phục vụ hành khách, khảo sát lại các điểm dừng xe bus đón, trả khách, nếu xét
+thấy không hợp lý các điểm xe bus sẽ được điều chỉnh lại cho phù hợp,…
+- Tác giả Ba Duy [8],, báo Điện tử Nhân dân cuối tuần, thứ Bảy, 23-11-2019,
+“Bảo đảm an toàn giao thông cho xe buýt”, theo bài báo thì bên cạnh việc nâng cao ý
+thức đội ngũ lái xe, cần xây dựng làn đường riêng cho xe buýt nhằm bảo đảm việc vận
+hành diễn ra thuận lợi và TP. Hà Nội đã có kế hoạch tổ chức giao thông theo hướng ưu
+tiên cho xe bus qua các nút, các tuyến phố không cho xe ô-tô hoạt động; ưu tiên tổ chức
+giao thông cho phương tiện vận tải công cộng khối lượng lớn.
+- ThS. Hoàng Thị Hồng Lê [1],, Trường Đại học Công nghệ giao thông vận tải,
+Giải pháp nâng cao chất lượng dịch vụ vận tải HKCC bằng xe buýt tại Hà Nội, 2015,
+bài báo đề xuất các giải pháp nâng cao chất lượng dịch vụ vận tải hành khách
+công cộng (VTHKCC) bằng xe buýt như: (1) Giải pháp hoàn thiện cơ sở hạ tầng giao
+thông: Cần có cơ cấu đầu tư thích hợp vào các điểm đầu, điểm cuối, điểm dừng đỗ dọc
+tuyến nhằm đảm bảo an toàn cho xe bus dừng đỗ, ra vào đón trả khách thuận tiện và
+đảm bảo an ninh trật tự trên xe, trên tuyến cho hoạt động của xe bus, (2) Giải pháp về
+nâng cao chất lượng đoàn phương tiện: cần phải có quy định cũng như tiêu chuẩn rõ
+ràng đối với các loại phương tiện về tiêu chuẩn kỹ thuật, khí thải, tiếng ồn, (3) Giải pháp
+tăng cường công tác kiểm tra, giám sát chất lượng dịch vụ: Tăng cường công tác kiểm
+tra, giám sát nhằm kiểm soát tốt các tiêu chí phục vụ hành khách của xe bus như: Chạy
+sai lộ trình, xe không dừng đón trả khách đúng quy định,…4) Giải pháp cung cấp kênh
+thông tin cho hành khách: xây dựng website với hệ thống mạng lưới xe bus tương đối
+đầy đủ để thông tin tới hành khách. Cần có sự thông báo về lịch trình tuyến; có phần
+diễn đàn (forum) giải đáp các thắc mắc của hành khách cũng như trao đổi kinh nghiệm
+9
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+khi sử dụng dịch vụ xe bus;…5) Giải pháp về ứng dụng khoa học công nghệ vào quản
+lý điều hành: ứng dụng công nghệ GPS vào quản lý điều hành và kiểm soát các tiêu chí
+chất lượng phục vụ xe bus, rà soát và kịp thời phát hiện những hư hỏng đối với hệ thống
+giám sát và hệ thống âm thanh trên xe về thông báo điểm dừng cho hành khách.
+b. Các công trình nghiên cứu ngoài nước
+- Xingchen Yan [4],, Studying the Influences of Bus Stop Type and
+Specifications on Bicycle Flow and Capacity for Better Bicycle Efficiency, MDPI,
+2020, tác giả tìm ra ảnh hưởng các thông số kỹ thuật của các phương tiện lưu thông như:
+vận tốc xe đạp,…đồng thời trong nghiên cứu này sử dụng các loại camera để quan sát,
+đánh giá ảnh hưởng của lượng xe khi không có hành khách, có hành khách đến phương
+tiện lưu thông và tính toán tốc độ di chuyển của xe bus sao cho hợp lý.
+- Ariel Schwartz [5],, Bus Stops of the Future: Are They Realistic?, tạp chí
+Fast Company, 2009, trong nghiên cứu này tác giả đánh giá thực trạng nhà chờ xe bus
+khá đơn điệu vì thế tác giả đưa ra thiết kế một kiểu nhà chờ xe bus được bao phủ xung
+quanh bởi các trong màn hình cảm ứng cho phép bác tài xế có thể tương tác với các trạm
+chờ, các ghế ngồi chờ tại các trạm dừng xe bus được làm bằng nhựa tái chế dễ tháo rời.
+Mái nhà là một tấm pin mặt trời lớn tạo ra đủ năng lượng để chiếu sáng nhà chờ.
+Tóm lại, các tác giả trong và ngoài nước đã có nhiều nghiên cứu đề cập về
+vấn đề giao thông trong đô thị, các giải pháp phát triển hoàn thiện – hỗ trợ hệ thống
+vận tải hành khách công cộng. Tuy nhiên để đề xuất và áp dụng một giải pháp cụ
+thể bằng tín hiệu đèn tại các các trạm dừng đón trả khách của xe bus nhằm hỗ trợ
+cho hành khách và bác tài xế, góp phần phát triển hỗ trợ hệ thống vận tải xem bus
+trở nên hiệu quả, thông minh thì chưa được nghiên cứu và ứng dụng nhiều ở
+Tp.HCM và đây chính là vấn đề mà nhóm chúng em đề xuất cho nghiên cứu cùa
+mình.
+
+B3. MỤC TIÊU NGHIÊN CỨU
+a. Mục tiêu chung
+- Nghiên cứu xây dựng giải pháp tại các trạm dừng đón trả khách của xe bus nhằm
+mục đích giúp giảm thiểu tình trạng kẹt xe, giảm thiểu tình trạng kẹt xe, đồng thời hạn
+chế tai nạn giao thông, hỗ trợ cho người khuyết tật trong việc đón xe bus được thuận lợi
+và an toàn, góp phần xây dựng đô thị thông minh về lĩnh vực giao thông vận tải.
+
+10
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+b. Mục tiêu cụ thể
+- Một là, phân tích thực trạng tình hình đón trả khách tại các trạm xe bus trên địa
+bàn Tp. Hồ Chí Minh nói chung và khu vực Quận 1 nói riêng.
+- Hai là, đề xuất giải pháp cụ thể bằng tín hiệu đèn tại các các trạm dừng đón
+trả khách của xe bus nhằm hỗ trợ cho hành khách và tài xế.
+- Ba là, chế tạo mô hình đèn tín hiệu cụ thể tương ứng tại một trạm trạm dừng
+đón trả khách của xe bus.
+
+B4. YÊU CẦU ĐỀ TÀI
+- Giải pháp phải có tính khả thi và có khả năng đưa mô hình vào ứng dụng trong
+thực tế để hỗ trợ không chỉ cho hành khách mà còn cho tài xế xe bus trong việc đón trả
+khách.
+- Mô hình hoạt động ổn định.
+- Có khả năng tích hợp vào các hệ thống hiện có của Trung tâm điều hành vận tải
+công cộng của Tp.HCM.
+- Mô hình được mở rộng dễ dàng với chi phí thấp.
+- Góp phần xây dựng giao thông thông minh.
+
+11
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+CHƯƠNG 1. KẾ HOẠCH VÀ PHƯƠNG PHÁP NGHIÊN CỨU
+1.1. Kế hoạch nghiên cứu
+TT
+
+Nội dung
+công việc
+
+Thời gian (tuần)
+Tuần
+
+Tuần
+
+Tuần
+
+1/4-30/4 1/5 – 4/5 15/5-31/5
+
+Tuần
+
+Tuần
+
+Tuần
+
+1/6-14/6
+
+15/6-14/7
+
+15/7-30/7
+
+Khảo sát thực
+trạng tại các
+1
+
+trạm đón trả
+khách khu vực
+Q1, Q3.
+
+2
+
+3
+
+4
+
+5
+
+6
+
+Xây dựng và lập
+kế hoạch nghiên
+cứu.
+Xây
+dựng
+Phương
+pháp
+nghiên cứu, thực
+hiện tổng quan,
+phân tích các
+yêu
+tố
+ảnh
+hưởng.
+Xây dựng Giải
+pháp thực hiện,
+Kết luận.
+Thiết kế, chế tạo
+mô hình dạng
+đơn giản.
+Hoàn thành báo
+cáo thuyết minh
+và Nộp ban tổ
+chức
+
+12
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+1.2. Phương pháp nghiên cứu
+1.2.1 Nhóm phương pháp nghiên cứu lý luận: đề tài sử dụng phương pháp
+nghiên cứu tổng quan tài liệu.
+- Phân tích, tổng hợp các công trình nghiên cứu trong và ngoài nước về các
+thông tin liên quan vấn đề liên quan đến thực trạng và giải pháp hỗ trợ hành khách tại
+các trạm xe bus.
+- Phân tích những nguyên nhân, các yếu tố ảnh hưởng của vấn đề các tài xế xe
+bus đón trả khách không đúng nơi quy định và tình trạng xe bus vô tư ra vào trạm, thậm
+chí không bật tín hiệu xin đường vẫn diễn ra.
+- Sử dụng phương pháp chuyên gia để phân tích thực trạng và cho ý kiến để
+hoàn thiện giải pháp đề xuất.
+1.2.2. Nhóm phương pháp nghiên cứu thực tế.
+- Tiến hành khảo sát, quan sát thực tế hoạt động của xe bus tại một số điểm đón
+trả khách tại Quận 1, Tp.HCM.
+- Nhóm khảo sát, quan sát thực tế về quy trình lên xuống xe bus của hành khách
+tại một số điểm đóng trả khách tại Quận 1, Tp.HCM.
+1.2.3. Nhóm phương pháp nghiên cứu xây dựng mô hình thực tế: đề tài sử
+dụng phương pháp thiết kế và chế tạo mô hình theo ý tưởng đề xuất.
+- Phân tích các phương án đề xuất: ưu điểm, nhược điểm, để từ đó lựa chọn
+phương án tối ưu.
+- Thiết kế, chế tạo mô hình thực tế.
+- Thực nghiệm mô hình thực tế, (khi hoàn thiện và được sự chấp thuận của các
+cơ quan nhà nước quản lý về giao thông ở Quận 1, TP.HCM).
+
+13
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+CHƯƠNG 2: PHÂN TÍCH THỰC TRẠNG
+2.1. Thực trạng đón trả khách tại các trạm xe bus
+Theo tài liệu [9] thì hành khách đi xe bus, cư dân di chuyển bằng xe máy mà cả
+các tài xế ô tô khác cũng vô cùng bức xúc khi lưu thông cùng chiều với xe bus. Điều đó
+cho thấy, thực trạng bác tài xe bus đón trả khách không đúng nơi quy định vẫn tồn tại
+trong thời gian qua, mặc cho việc tuần tra xử lý của cơ quan chức năng. Việc xe bus tạt
+ngang đầu xe máy, chèn ép các phương tiện vào lề để đón khách không còn là hình ảnh
+xa lạ. Nhất là vào giờ cao điểm, vì quá vội, tranh giành khách hay do mật độ giao thông
+quá đông đúc, không ít tài xế ngang nhiên dừng xe giữa đường, thậm chí ngay tại ngã
+tư dừng chờ đèn đỏ để thả khách xuống. Còn việc khách đi kiểu nào thì kệ khách, xem
+như hết nhiệm vụ phục vụ, không cần quan tâm đến sự an toàn của khách trước dòng
+phương tiện phía sau ào ào lao tới. Hành vi này vừa làm phức tạp thêm tình hình giao
+thông, vừa gây nguy hiểm cho chính hành khách và những người cùng tham gia giao
+thông. Rất nhiều vụ va chạm xe máy do trường hợp thắng gấp để tránh hành khách bất
+ngờ xuống xe vì khuất tầm nhìn. Thậm chí những vụ tai nạn giao thông nghiêm trọng
+cũng xuất phát từ việc các bác tài xe buýt không tuân thủ quy định về an toàn giao thông,
+khiến xe buýt trở thành nỗi ám ảnh người đi đường.
+Theo tài liệu [10], hầu hết các điểm dừng đón, trả khách của xe buýt ở các trục
+đường chính, gần khu chung cư, gần chợ, gần các điểm vui chơi, quán cà-phê…đều bị
+ô-tô, xe khách, xe taxi lấn chiếm. Do đó, tất cả các xe buýt khi đến điểm đỗ dừng đón,
+trả hành khách không còn chỗ dừng xe, phải đỗ xe giữa đường để đón trả khách, vừa
+gây nguy hiểm cho hành khách và cả người tham gia giao thông đi qua điểm này. Ở Hà
+Nội, tại điểm dừng đỗ xe buýt tuyến số 12 - chung cư Lê Đình Lý, điểm dừng chợ Cồn,
+điểm dừng 156 Nguyễn Thị Minh Khai gần giao lộ với đường Hùng Vương…đều có
+vạch kẻ riêng, gần như thuộc đường ưu tiên cấm các loại phương tiện khác dừng đỗ,
+nhưng lúc nào ô-tô cũng đậu bủa vây kín cả trước, sau điểm dừng.
+Vì vậy, nhiều tài xế xe buýt tuyến số 12 chạy tới đây đành đỗ xe giữa lòng đường
+để trả và đón khách. Không chỉ các điểm dừng ở tuyến số 12, nhiều điểm dừng của các
+tuyến buýt khác như số 5, 7, 8, 11 cũng lâm vào cảnh tương tự.
+
+14
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+Tình trạng trên là mối nguy hiểm cho hành khách đi xe buýt, khi họ phải lên xuống
+ngay giữa lòng đường. Trong khi đó, xe buýt dừng ngay giữa lòng đường cũng rất dễ
+gây ra tai nạn cho người tham gia giao thông.
+Đáng chú ý, không chỉ đỗ, dừng ngay điểm chờ xe buýt, có nhiều loại phương tiện
+tham gia giao thông khác như: xe khách, xe tải, xe taxi đậu lấn chiếm hết cả hai bên
+đường, khiến cho giao thông nhiều nơi xảy ra tình trạng quá tải dẫn đến tắc đường.
+Từ đó, có thể tóm lại một số thực trạng tại các trạm đón xe bus như sau:
+- Người dân tràn ra đường để đón xe bus gây tình trạng ùn tắc giao thông và dễ
+gây tai nạn.
+- Các tài xế hay bị nhầm người gọi taxi và người đón xe.
+- Các phụ lái xe thường phải chồm ra ngoài để hỏi có ai đi chuyến mình không
+và cũng rất dễ gây ra tai nạn.
+- Các cụ già và người khuyết tật đi lại hạn chế khi đón xe.
+
+Hình 2.1. Thực trạng đón trả khách tại các trạm xe bus.
+2.2. Thực trạng tại các trạm xe bus
+Theo [11], mật độ phân bố các điểm dừng đỗ tương đối dày, đặc biệt là trong nội
+thành, gây ảnh hưởng đến hiệu suất hoạt động của xe bus.
+
+15
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+“Trong khu vực nội thành, hiện nay, các điểm dừng đỗ xe buýt cách nhau tầm 500600m trong khi quy định là khoảng 700m. Việc phân bổ các điểm dừng đỗ quá gần nhau
+mặc dù tạo điều kiện cho người dân dễ dàng tiếp cận xe buýt hơn nhưng lại khiến xe
+buýt phải dừng lại quá nhiều, thời gian chuyến đi bị tăng lên”.
+Ví dụ tại Hà Nội đang bước vào mùa mưa bão, nắng gay gắt và những cơn mưa
+thất thường xảy ra bất cứ lúc nào trong khi hiện chỉ có 11% điểm dừng dỗ trên toàn
+thành phố được trang bị mái che. Tình trạng này khiến hành khách cảm thấy ngần ngại
+khi lựa chọn xe buýt là phương thức di chuyển chính.
+Tại Tp.HCM tại xa lộ Hà Nội có hàng chục điểm dừng xe bus, nhưng tại các điểm
+này chỉ có một cọc sắt gắn biển ghi thông tin số hiệu tuyến, lộ trình mà không có mái
+che. Do vậy, nhiều hành khách phải đứng ngay trên tuyến đường nhỏ hẹp chờ xe rất
+nguy hiểm, nhiều trạm đón xe bus, người dân phải đứng đợi xe buýt ở các điểm dừng
+không có mái che, nguy hiểm vì đường bé, lại nhiều xe. Những tuyến đường càng xa
+trung tâm thành phố lại càng khan hiếm những điểm dừng xe buýt có nhà chờ, ghế ngồi,
+mái che. Tần suất các chuyến xe ít, thời gian chờ đợi lâu trong khi nhiều tuyến đường
+lại thiếu cây xanh che phủ cho nên hành khách đứng chờ xe bus rất vất vả.
+§ Trạm xe bus hiện nay chia thành hai loại:
+- Trạm xe bus có mái, băng ghế và một số bảng thông tin liên quan.
+- Trạm xe bus chỉ có 1 cái cột với bảng thông tin tuyến xe.
+
+Hình 2.2. Thực trạng tại các trạm xe bus
+2.3. Đánh giá thực trạng.
+Từ phân tích thực trạng trên cho thấy sự tiện ích của phương tiện giao thông công
+công đặc biệt là xe bus, nhất là trong đô thị lớn như Tp. Hồ Chí Minh, tuy nhiên các tài
+xế ra vào trạm đón khách khá “vô tư”, ra vào trạm không bật đèn tín hiệu xin đường, và
+16
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+vị trí đón trả khách không đúng nơi quy định, bên cạnh đó nguyên nhân khách quan dẫn
+đến tình trạng trên một phần do tình trạng lộn xộn tại các trạm đón trả khách cũng là
+một phần áp lực cho các tài xế. Chính vì vậy, việc đề xuất xây dựng một giải pháp đèn
+tín hiệu hỗ trợ người đón xe bus tại các trạm đón trả khách sẽ khắc phục tình trạng đón
+trả khách chưa hợp lý như hiện nay.
+
+17
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+CHƯƠNG 3: PHÂN TÍCH CÁC YẾU TỐ ẢNH HƯỞNG
+3.1. Các yếu tố ảnh hưởng đến thực trạng việc đón trả khách xe bus hiện nay
+- Tình hình bán hàng rong lấn chiếm không tại các trạm đón xe bus làm ảnh hưởng
+đến hành khách.
+- Tình trạng giao thông tai khu vực xung quanh nhà chờ xem bus lộn xộn: các xe
+đi chen lấn khi lưu thông, cơ sở vật chất tại các trạm đón trả khách còn nghèo nàn, chưa
+tiện lợi cho người sử dụng dịch vụ.
+- Áp lực chạy xe đùng giờ của các tài xế, các tài xế chần chừ, do dự khi sợ có sự
+hiểu nhầm giữa tài xế và hành khách.
+Bảng 3.1. Các yếu tố ảnh hưởng đến số lượng hành khách
+sử dụng phương tiện xe bus
+Các yếu tố ảnh hưởng đến số lượng hành khách sử dụng phương tiện xe bus
+Dân số
+
+Mức thay đổi cơ cấu độ tuổi, mật độ phân phối, tỉ lệ người cao tuổi.
+
+Công nghệ
+
+Các công nghệ liên quan đến bảo vệ môi trường, an toàn, điều khiển
+tự động,…
+
+Văn hóa
+
+Phong tục, thói quen.
+
+Hạ tầng
+
+Tình trạng bến bãi, nhà chờ, các công trình tiếp cận cho hành khách,…
+
+Hành khách Thái độ hành khách, lựa chọn phương tiện đi lại, địa điểm đến, độ tuổi,
+mật độ phân bố, tỉ lệ sở hữu phương tiện,…
+3.2. Đánh giá, nhận xét tác động của giải pháp
+- Giải pháp này sẽ giúp người dân lẫn các tài xế xe bus thuận tiện hơn trong việc
+đón khách, trả khách và khi đi lại bằng xe bus.
+- Sau khi ứng dụng giải pháp công nghệ này vào thực tế sẽ giúp người dân yêu
+thích đi xe bus hơn.
+- Làm hạn chế những vấn đề về tai nạn giao thông và vấn đề rất hot hiện nay:
+KẸT XE, giúp hạn chế tai nạn giao thông, hỗ trợ người khuyết tật khi đi xe bus.
+Đây là một bước tiến tuy nhỏ nhưng hiệu quả đối với môi trường giao thông công
+cộng
+- Có sự tương tác hiệu quả, không gây hiểu nhầm khi đón xe.
+18
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+- Sau khi ứng dụng giải pháp công nghệ này vào thực tế sẽ giúp người dân yêu
+thích đi xe bus hơn.
+- Nếu người dân thích đi xe buýt hơn thì sẽ giải quyết được thêm nhiều vấn đề
+như ô nhiễm môi trường, kẹt xe, gây tai nạn ít hơn.
+
+19
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+CHƯƠNG 4: GIẢI PHÁP THỰC HIỆN
+4.1. Mô tả cụ thể giải pháp
+Giải pháp này được mô tả cụ thể như sau: đây là một cột bảng thông tin bằng
+đèn tín hiệu, trên bảng là các ô có các tuyến (vì thực chất một Trạm có nhiều tuyến xe –
+tiện lợi quan sát cho tài xế), phía dưới là hệ thống nút bấm như trong thang máy, chọn
+nút nào thì nút đó hiện màu xanh và đèn tương ứng số tuyến xe cũng sẽ hiện màu xanh
+thể hiện khách có nhu cầu đi tuyến đó, giúp tài xế xe bus phát hiện từ xa và điều khiển
+phương tiện phục vụ hành khách hợp lý. Giải pháp này giống như giải pháp hỗ trợ người
+băng qua đường tại phố đi bộ Nguyễn Huệ. Ngược lại, nếu tài xế quan sát từ xa không
+thấy đèn tín hiệu màu xanh bật lên và hành khách trên xe bus không xuống trạm đó thì
+lúc này tài xế xe bus sẽ cho xe chạy qua trạm luôn.
+Giải pháp được mô tả cụ thể như sau:
+Ø Ở mỗi trạm sẽ gắn một đèn báo tương ứng các tuyến số của trạm đó (mỗi tuyến
+số sẽ tương ứng với các màu đèn khác nhau).
+Ø Đặt số lượng nút tương ứng với số lượng tuyến tại các trạm.
+Ø Khi bấm vào nút của trạm nào thì đèn của tuyến đó sáng.
+Ø Khi tài xế thấy đèn báo sáng sẽ vào trạm và đón, trả khách. Nếu không có đèn
+sáng và trên xe không có khách xuống trạm thì tài xế không cần ghé vào trạm.
+Ø Nếu ai có quên bấm đèn thì phải chờ tuyến sau, các bác không cần tấp vào và
+hỏi ai đi chuyến của mình không.
+Ø Việc kết hợp với nút nhấn báo hiệu lên xuống xe trên xe bus sẽ góp phần làm
+tăng hiệu quả của giải pháp.
+
+1 1
+
+Hình 4.1. Mô tả ý tưởng của giải pháp.
+20
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+4.2. Mô hình giải pháp và hướng dẫn sử dụng cơ bản
+
+Hình 4.2. Mô hình giải pháp của nhóm nghiên cứu
+Bảng 4.1 Hướng dẫn sử dụng mô hình của giải pháp
+BƯỚC
+1
+
+Chỉ dẫn sử dụng
+Khi cần lên xe bus tuyến số nào thì nhấn
+nút tương ứng với đèn báo số tuyến xe bus đó.
+Ví dụ
+
+Hành khách cần đi tuyến số 10 thì Hành khách cần đi tuyến số 20 thì nhấn đèn
+nhấn đèn báo tương ứng tuyến số báo tương ứng tuyến số 20
+10
+
+Sau khi ấn nút thì đèn báo màu tương ứng số
+2
+
+chuyến sẽ sáng lên và khi đó hành khách đã
+hoành thành viêc báo hiệu cho tài xế xe bus.
+Ví dụ
+
+21
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+BƯỚC
+
+Chỉ dẫn sử dụng
+
+Đèn báo có khách
+
+Đèn báo có khách
+
+Tuyến xe bus số 10
+
+Tuyến xe bus số 20
+
+Trong thời gian chờ xe bus mà đèn báo có khách tắt thì hành khách làm lại
+Bước 1 cho đến khi nào có tuyến xe đến rước.
+Lưu ý: Đây là đèn báo tuyến xe bus phục vụ hành khách, nếu người qua đường
+không có nhu cầu sử dụng xin đừng nhấn nút trên để tránh làm ảnh hưởng đến hành
+khách và tài xế xe bus.
+4.3. Mở rộng mô hình
+Trong hướng nghiên cứu này, nhóm chúng em đề xuất tích hợp thêm 2 mô hình:
+a. Mô hình kết hợp trạm xe bus với hệ thống năng lượng mặt trời
+Trong mô hình này sẽ đặt các tấm năng lượng mặt trời trên các mái của trạm đón
+trả khách vừa giúp chống nóng cho hành khách trong thời gian chờ đón xe bus vừa giúp
+đảm bảo nguồn năng lượng điện hoạt động cho hệ thống đèn tín hiệu, đặc biệt hữu ích
+tại các trạm đón khách ở xa lộ, góp phần xây dựng thành phố xanh.
+
+INVERTER
+Ánh
+sáng
+Mặt
+Trời
+
+Solar
+panel
+-tấm pin
+năng
+lượng mặt
+trời
+
+Dòng điện
+
+220
+V
+
+Biến điện một chiều -> điện xoay
+chiều
+
+1 chiều
+8V-12V
+8-12V
+
+BỘ
+SẠC
+
+Hình 4.3. Sơ đồ nguyên lý hệ thống năng lượng mặt trời
+
+ÁC
+QUY
+
+Nguyên lý hoạt động:
+- Ánh sáng mặt trời chiếu vào tấm pin năng lượng mặt trời – solar panel và chuyển
+hoá thành dòng điện 1 chiều 8V-12V.
+- Từ dòng điện sinh ra, ta có sử dụng như sau:
++ Cách 1: Đưa dòng điện được sinh ra qua bộ biến đổi điện một chiều thành điện
+xoay chiều – Inverter và biến nó thành dòng điện xoay chiều 220V để có thể thắp sáng
+bóng đèn ở các trạm xe buýt.
+
+22
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
++ Cách 2: Dùng dòng điện vừa sinh ra và đưa sang bộ sạc để đảm bảo pin điện đi
+ra luôn là 12V. Sau đó ta chuyển đến ác quy và dùng nó để thắp sáng bóng đèn ở các
+trạm xe buýt.
+4.4. Xây dựng App ứng dụng
+§ App kết nối cùng hệ thống GPS của tài xế:
+- Tạo sự thuận tiện cho tài xế có thể theo dõi hành khách sẽ lên chuyến của mình
+tại trạm kế tiếp.
+- Giúp các bác tài quan sát dễ dàng các đèn tín hiệu đón khách tại các trạm xe bus
+thay vì phải quan sát từ xa, giảm sự căng thẳng cho bác tài.
+- Kết hợp tính năng tắt đèn tín hiệu từ xa giúp cho hệ thống đèn tín hiệu hoạt động
+hiệu quả hơn.
+§ App hỗ trợ đón xe bus cho hành khách:
+- Giúp hành khách có thể biết được thông tin và khoảng cách của xe bus mà mình
+chuẩn bị lên khi đang đứng chờ tại trạm.
+- Phát triển mô hình xe bus thông minh trong giai đoạn phát triển thành phố thông
+minh, hiện đại, nghĩa tình.
+4.5. Giải pháp để hệ thống hoạt động hiệu quả
+Trong quá trình hoạt động, hệ thống nút nhấn đèn tín hiệu hỗ trợ việc đón trả khách
+tại các trạm xe bus rất dễ bị trẻ em hiếu động hay một số người lớn có ý thức chưa cao
+tác động ngoài ý muốn làm ảnh hưởng đến quá trình hoạt động cũng như hiệu quả của
+giải pháp, chính vì vậy để hạn chế tối sự ảnh hưởng này thì chúng ta triển khai đồng thời
+các giải pháp sau:
++ Giáo dục, tuyên truyền cho các học sinh trong trường có thể thông qua các buổi
+sinh hoạt trên lớp, các buổi học môn Giáo dục công dân hay trong các buổi nói chuyện
+về an toàn giao thông,…để qua đó cho các trẻ em, học sinh hiểu được những việc làm
+không nên của mình sẽ ảnh hưởng đến an toàn giao thông. Ngoài ra, thiết kế các Pa-nô,
+áp phích, tờ rơi để người lớn khi đọc sẽ có ý thức hơn.
++ Vị trí đặt các nút nhấn cao so với mặt đất từ 1,5m-1,6m - ở vị trí này cũng sẽ khá
+cao so với tầm với của trẻ em, nhưng cũng không ảnh hưởng đến việc nhấn nút của
+những người khuyết tật.
++ Lựa chọn các nút nhấn sâu để khi trẻ em có nhấn cũng hạn chế một phần đến
+việc tác động vào đèn tín hiệu.
+23
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
++ Trong hệ thống có các Timer để nếu người lớn hay trẻ em “lỡ” có nhấn thì sau
+một thời gian đèn cũng sẽ tắt.
++ Với xu hướng xây dựng các trạm đón xe bus xanh – thân thiện thì tại các trạm
+đón xe bus ngoài việc gắn thêm Wifi tăng sự tiện ích cho hành khách thì gắn thêm hệ
+thống camera để quan sát những trẻ em hiếu động, người lớn chưa có ý thức tác động
+vào các nút nhấn
+
+24
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+CHƯƠNG 5: KẾT LUẬN, HƯỚNG PHÁT TRIỂN VÀ KIẾN NGHỊ
+5.1. Kết luận
+Qua nghiên cứu này, nhóm đã phân tích được thực trạng tình hình đón trả khách
+tại các trạm xe bus trên địa bàn Tp. Hồ Chí Minh nói chung và khu vực Quận 1 nói
+riêng.
+Thông qua phân tích thực trạng nhóm nghiên cứu đã đề xuất giải pháp cụ thể bằng
+tín hiệu đèn tại các các trạm dừng đón trả khách của xe buýt nhằm hỗ trợ cho hành khách
+và bác tài xế và xây dựng chế tạo mô hình đèn tín hiệu cụ thể tương ứng tại một trạm
+dừng đón trả khách của xe bus.
+5.2. Hướng phát triển của đề tài
+a. Xây dựng App ứng dụng
+- Để tạo sự thuận tiện cho tài xế: theo dõi hành khách sẽ đi chuyến của mình từ
+xa qua việc kết nối tín hiệu nút nhấn với App.
+- Theo dõi hảnh trình của xe để giúp hành khách biết được thông tin và khoảng
+cáh về xe bus mà mình sẽ đi.
+- Phát triển mô hình xe bus thông minh trong đô thị thông minh.
+
+Hình 5.1. Xây dựng App ứng dụng phát triển mô hình xe bus thông minh
+5. Kết hợp nguồn năng lượng mặt trời
+- Đặt các tấm năng lượng mặt trời trên các mái của trạm đón trả khách.
+- Đảm bảo nguồn năng lượng điện, đặc biệt là các trạm ở vùng xa lộ.
+- Góp phần xây dựng thành phố xanh.
+
+25
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+Hình 5.2 Mô hình kết hợp trạm xe bus với hệ thống năng lượng mặt trời
+5.3. Kiến nghị
+- Nhóm thực hiện đề tài rất mong Nhà trường tạo điều kiện cho nhóm được triển
+khai ý tưởng trên, đồng thời cũng mong Ban giám hiệu, bộ phận quản lý hoạt động
+Nghiên cứu khoa học kết nối và xin phép đơn vị quản lý các trạm xe bus cho nhóm được
+lắp đặt thử nghiệm để đánh giá hiệu quả của giải pháp để từ đó nhóm nghiên cứu rút
+kinh nghiệm để hoàn thiện thêm giải pháp của mình.
+- Nhóm thực hiện kiến nghị và rất mong nhận được sự quan tâm của các cơ quan
+chức năng, cơ quan quản lý giao thông tại Tp.HCM tiếp nhận và thử nghiệm hệ thống
+trên nhiều điểm trạm đón trả xe bus, mang lại hiệu quả trong sử dụng phương tiện công
+cộng, tăng cường ứng dụng mô hình đèn tín hiệu thông minh phục vụ nhiều người và đa
+dạng thành phần hành khách.
+
+26
+
+CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG TOÀN QUỐC
+LẦN THỨ 18 NĂM 2022
+
+TÀI LIỆU THAM KHẢO
+Trong nước
+1. ThS. Hoàng Thị Hồng Lê, Giải pháp nâng cao chất lượng dịch vụ vận tải HKCC
+bằng xe buýt tại Hà Nội, Trường Đại học Công nghệ Giao thông vận tải, 2015.
+2. TS Dư Phước Tân, Viện Nghiên cứu phát triển Tp. HCM, tham luận Hội thảo
+"Bàn về các giải pháp phát triển hệ thống vận tải hành khách công cộng TPHCM", năm
+2015.
+3. Nguyễn Xuân Long, Đề tài “Phân tích nguyên nhân người dân Tp.HCM ít sử
+dụng xe buýt và đề xuất giải pháp tăng sản lượng hành khách đi xe buýt, 2020.
+Quốc tế
+4. Xingchen Yan, và các cộng sự, Studying the Influences of Bus Stop Type and
+Specifications on Bicycle Flow and Capacity for Better Bicycle Efficiency, MDPI, 2020.
+5. Ariel Schwartz, Bus Stops of the Future: Are They Realistic?, tạp chí Fast
+Company, 2009.
+Website:
+6. https://nld.com.vn/ban-doc/giai-phap-nao-20161025231840533.htm
+7. https://congannghean.vn/phap-luat/an-toan-giao-thong/201707/thuc-trang-vagiai-phap-dam-bao-atgt-trong-hoat-dong-cua-xe-bus-bai-2-749839/
+8. https://nhandan.com.vn/doi-song-xa-hoi/bao-dam-an-toan-giao-thong-cho-xebuyt-377728/
+9. https://vovgiaothong.vn/Xe-buyt-don-tra-khach-tuy-tien-Noi-bat-an-chonguoi-di-duong
+10. https://www.baodanang.vn/channel/5404/201806/diem-xe-buyt-don-trakhach-bi-lan-chiem-2776305/
+11. https://vovgiaothong.vn/bat-cap-he-thong-diem-dung-nha-cho-xe-buyt
+
+27
+
+

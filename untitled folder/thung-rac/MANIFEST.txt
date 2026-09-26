@@ -1,0 +1,18 @@
+MANIFEST — Thùng rác NCKH27VK (code cũ / trùng / prototype / rác)
+Tạo: 2026-09-23. Dùng sha256sum hoặc md5 để đối chiếu nội dung khi cần.
+Đây không phải quyết định xóa; các mục vẫn được giữ nguyên nội dung.
+
+[mục]                      [nơi gốc]                              [nơi mới]                                       [lý do]
+Server/dictation_fixed.swift  ->  thung-rac/Server/dictation_fixed.swift   Prototype STT Apple (DictationTranscriber) đã thay bằng Groq; không nằm trong Package.swift, không build
+Server/play-audio.sh          ->  thung-rac/Server/play-audio.sh            File rác 1 byte; bản hợp lệ nằm ở Pi 2/play-audio
+Server/setup_pi2w.sh          ->  thung-rac/Server/setup_pi2w.sh            Bản cũ script cài Pi; bản hợp lệ (HEADSET_MAC=04:60:61:EF:78:22) nằm ở Pi 2/setup_pi2w.sh
+Server/root@192.168.2.21      ->  thung-rac/Server/root@192.168.2.21         Snapshot trùng setup_pi2w.sh (khác HEADSET_MAC); lưu nhầm tên scp
+Bai du thi/TP/Pi              ->  thung-rac/Bai du thi/TP/Pi                Green Eye Pi client (GPIO17, /classify) — pipeline cũ song song, không thuộc kiến trúc mới
+Bai du thi/TP/Mac             ->  thung-rac/Bai du thi/TP/Mac               Green Eye server (FoundationModels, /classify) — cũ, nguyên khối kể cả .build (1.2 GB)
+Bai du thi/TP/code            ->  thung-rac/Bai du thi/TP/code              Archive code Green Eye (default.tar.gz)
+Bai du thi/TP/extract_docx.py ->  thung-rac/Bai du thi/TP/extract_docx.py   Script trích xuất DOCX — công cụ hồ sơ đã hoàn tất
+Bai du thi/TP/extract_reg.py  ->  thung-rac/Bai du thi/TP/extract_reg.py    Script trích xuất — công cụ hồ sơ đã hoàn tất
+
+KHÔNG đụng (giữ nguyên): Pi 2/, Server/Sources (source đang dùng),
+Server/wavpi/, Server/extracted_text.txt, Server/nhan-xet.md, PiEnd/, ServerEnd/,
+và toàn bộ hồ sơ dự thi còn lại trong Bai du thi/TP/.

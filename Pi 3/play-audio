@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Route MP3 to the MAX98357A ALSA device and WAV to the Bluetooth headset.
+# The headset playback profile is A2DP; SCO CVSD 8 kHz is reserved for capture.
+set -Eeuo pipefail
+
+HEADSET_MAC="${HEADSET_MAC:-04:60:61:EF:78:22}"
+HEADSET_WAV_DEVICE="bluealsa:DEV=${HEADSET_MAC},PROFILE=a2dp"
+MAX98357A_DEVICE="${MAX98357A_DEVICE:-default}"
+
+usage() {
+    cat <<'USAGE'
+Usage: play-audio <file.mp3|file.wav>
+
+Routing:
+  *.mp3  -> MAX98357A ALSA device (default: "default") via mpg123
+  *.wav  -> Bluetooth headset 04:60:61:EF:78:22 via aplay/BlueALSA A2DP
+
+Set MAX98357A_DEVICE to override the ALSA device for MAX98357A:
+  MAX98357A_DEVICE=hw:0,0 play-audio response.mp3
+USAGE
+}
+
+fail() {
+    printf 'play-audio: %s\n' "$*" >&2
+    exit 1
+}
+
+require_command() {
+    command -v "$1" >/dev/null 2>&1 || fail "không tìm thấy lệnh: $1"
+}
+
+[[ $# -eq 1 ]] || {
+    usage >&2
+    exit 2
+}
+
+input=$1
+[[ -f "$input" && -r "$input" ]] || fail "không thể đọc file: $input"
+
+case "$input" in
+    *.mp3|*.MP3)
+        require_command mpg123
+        exec mpg123 -q -a "$MAX98357A_DEVICE" "$input"
+        ;;
+    *.wav|*.WAV)
+        require_command aplay
+        exec aplay -q -D "$HEADSET_WAV_DEVICE" "$input"
+        ;;
+    *)
+        fail "chỉ hỗ trợ file .mp3 hoặc .wav: $input"
+        ;;
+esac

@@ -1,0 +1,466 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Setup toi gian cho Raspberry Pi Zero 2 W chay DietPi Trixie ARM64.
+# Chay bang: sudo bash setup_pi2w.sh
+
+HEADSET_MAC="E0:1A:03:08:A9:7C"
+BT_PLAYBACK_DEVICE="bluealsa:DEV=${HEADSET_MAC},PROFILE=a2dp"
+BT_CAPTURE_DEVICE="bluealsa:DEV=${HEADSET_MAC},PROFILE=sco"
+BLUEALSA_OVERRIDE="/etc/systemd/system/bluealsa.service.d/override.conf"
+HEADSET_RECONNECT_SERVICE="/etc/systemd/system/headset-reconnect.service"
+BOOT_CONFIG="/boot/firmware/config.txt"
+CAMERA_ISP_SERVICE="/etc/systemd/system/camera-isp.service"
+OVERLAY_README="/boot/firmware/overlays/README"
+MAX98357A_OVERLAY="max98357a"
+REBOOT_NEEDED=0
+CAMERA_REBOOT_NEEDED=0
+
+CAMERA_STATUS="chua kiem tra"
+BT_STATUS="chua kiem tra"
+BT_PAIR_STATUS="chua kiem tra"
+BT_TRUST_STATUS="chua kiem tra"
+BT_PLAYBACK_STATUS="chua kiem tra"
+BT_CAPTURE_STATUS="chua kiem tra"
+BLUEALSA_STATUS="chua kiem tra"
+TAILSCALE_STATUS="chua kiem tra"
+ALSA_STATUS="chua kiem tra"
+
+log() {
+    printf '\n==> %s\n' "$*"
+}
+
+ok() {
+    printf '  [OK] %s\n' "$*"
+}
+
+warn() {
+    printf '  [CAN LUU Y] %s\n' "$*"
+}
+
+fail() {
+    printf '  [LOI] %s\n' "$*" >&2
+    exit 1
+}
+
+need_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+require_root() {
+    if [[ "${EUID}" -ne 0 ]]; then
+        fail "Hay chay bang: sudo bash setup_pi2w.sh"
+    fi
+}
+
+require_arm64() {
+    local machine arch
+    machine="$(uname -m)"
+    arch="$(dpkg --print-architecture)"
+
+    [[ "${machine}" == "aarch64" ]] || fail "uname -m la '${machine}', khong phai aarch64. Dung DietPi Trixie ARM64."
+    [[ "${arch}" == "arm64" ]] || fail "dpkg architecture la '${arch}', khong phai arm64. Dung DietPi Trixie ARM64."
+}
+
+apt_install_minimal() {
+    log "Lam moi danh sach goi va cai dependency toi thieu"
+
+    export DEBIAN_FRONTEND=noninteractive
+    apt update
+
+    local camera_pkg
+    if apt-cache show rpicam-apps >/dev/null 2>&1; then
+        camera_pkg="rpicam-apps"
+    elif apt-cache show libcamera-apps >/dev/null 2>&1; then
+        camera_pkg="libcamera-apps"
+    else
+        fail "Khong tim thay goi rpicam-apps/libcamera-apps trong apt. Kiem tra repository DietPi/Raspberry Pi."
+    fi
+
+    apt install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        "${camera_pkg}" \
+        alsa-utils \
+        mpg123 \
+        bluez \
+        bluez-alsa-utils \
+        libasound2-plugin-bluez \
+        rfkill \
+        python3 \
+        python3-pip \
+        python3-numpy \
+        python3-pil
+
+    ok "Da cai cac goi toi thieu, camera package: ${camera_pkg}"
+}
+
+configure_bluealsa() {
+    log "Cau hinh BlueALSA cho loa A2DP va micro SCO"
+
+    systemctl enable --now bluetooth.service
+    if need_cmd rfkill; then
+        rfkill unblock bluetooth || true
+    fi
+
+    install -d "$(dirname "${BLUEALSA_OVERRIDE}")"
+    printf '%s\n' \
+        '[Service]' \
+        'ExecStart=' \
+        'ExecStart=/usr/bin/bluealsa -S --keep-alive=5 --codec=-mSBC --codec=-LC3-SWB -p a2dp-source -p hfp-ag -p hsp-ag' \
+        >"${BLUEALSA_OVERRIDE}"
+
+    systemctl daemon-reload
+    systemctl enable --now bluealsa.service
+    systemctl restart bluealsa.service
+
+    local bluealsa_info
+    bluealsa_info="$(bluealsa-cli status 2>/dev/null || true)"
+    if systemctl is-active --quiet bluealsa.service \
+        && grep -q "A2DP-source" <<<"${bluealsa_info}" \
+        && grep -Eq "HFP-AG|HSP-AG" <<<"${bluealsa_info}"; then
+        BLUEALSA_STATUS="dang chay: A2DP source + HFP/HSP audio gateway; SCO chi dung CVSD"
+        ok "BlueALSA da san sang; da tat mSBC/LC3-SWB de micro SCO dung CVSD."
+    else
+        BLUEALSA_STATUS="service/profile khong san sang"
+        fail "BlueALSA thieu A2DP-source hoac HFP/HSP-AG. Xem: bluealsa-cli status; journalctl -u bluealsa.service -n 50"
+    fi
+}
+
+install_enable_tailscale() {
+    log "Kiem tra va bat Tailscale"
+
+    if ! need_cmd tailscale; then
+        warn "Chua co Tailscale, dang cai bang script chinh thuc cua Tailscale. Khong nhung auth key."
+        curl -fsSL https://tailscale.com/install.sh | sh
+    fi
+
+    systemctl enable --now tailscaled.service
+
+    if tailscale status >/dev/null 2>&1; then
+        TAILSCALE_STATUS="da cai va da dang nhap"
+        ok "Tailscale dang hoat dong."
+    else
+        TAILSCALE_STATUS="da cai, chua dang nhap"
+        warn "Tailscale chua dang nhap. Sau khi script xong, chay: sudo tailscale up"
+    fi
+}
+
+setup_bluetooth_headset() {
+    log "Bat Bluetooth va ket noi tai nghe ${HEADSET_MAC}"
+
+    systemctl enable --now bluetooth.service
+    sleep 2
+
+    if need_cmd rfkill; then
+        rfkill unblock bluetooth || true
+    fi
+
+    warn "Hay dua tai nghe vao pairing mode ngay bay gio. Script se thu toi da 5 lan, khong treo vo han."
+
+    local connected=0
+    local attempt
+    for attempt in 1 2 3 4 5; do
+        printf '  Thu ket noi Bluetooth lan %s/5...\n' "${attempt}"
+        timeout 25s bluetoothctl <<BTCTL || true
+power on
+agent on
+default-agent
+scan on
+pair ${HEADSET_MAC}
+trust ${HEADSET_MAC}
+connect ${HEADSET_MAC}
+info ${HEADSET_MAC}
+scan off
+quit
+BTCTL
+
+        local info
+        info="$(timeout 8s bluetoothctl info "${HEADSET_MAC}" 2>/dev/null || true)"
+        if grep -q "Connected: yes" <<<"${info}"; then
+            connected=1
+            break
+        fi
+        sleep 4
+    done
+
+    if [[ "${connected}" -eq 1 ]]; then
+        local info
+        info="$(bluetoothctl info "${HEADSET_MAC}" 2>/dev/null || true)"
+        grep -q "Paired: yes" <<<"${info}" && BT_PAIR_STATUS="yes" || BT_PAIR_STATUS="no"
+        grep -q "Trusted: yes" <<<"${info}" && BT_TRUST_STATUS="yes" || BT_TRUST_STATUS="no"
+        BT_STATUS="connected"
+        ok "Da pair/trust/connect tai nghe ${HEADSET_MAC}."
+        check_bluetooth_audio
+    else
+        BT_STATUS="not connected"
+        BT_PAIR_STATUS="khong xac dinh"
+        BT_TRUST_STATUS="khong xac dinh"
+        warn "Chua ket noi duoc tai nghe. Kiem tra pairing mode/pin va thu lai: bluetoothctl connect ${HEADSET_MAC}"
+    fi
+}
+
+install_headset_reconnect_service() {
+    log "Bat tu dong ket noi lai tai nghe sau reboot/ngat ket noi"
+
+    if [[ "${BT_PAIR_STATUS}" != "yes" || "${BT_TRUST_STATUS}" != "yes" ]]; then
+        warn "Tai nghe chua pair/trust, chua tao service reconnect. Pair thanh cong roi chay lai script mot lan."
+        return 0
+    fi
+
+    printf '%s\n' \
+        '[Unit]' \
+        'Description=Reconnect fixed Bluetooth headset' \
+        'Wants=bluetooth.service bluealsa.service' \
+        'After=bluetooth.service bluealsa.service' \
+        '' \
+        '[Service]' \
+        'Type=simple' \
+        "ExecStart=/bin/bash -c 'while :; do if /usr/bin/bluetoothctl info ${HEADSET_MAC} | /usr/bin/grep -q \"Connected: yes\"; then sleep 20; else /usr/bin/timeout 15s /usr/bin/bluetoothctl connect ${HEADSET_MAC} >/dev/null 2>&1 || true; sleep 15; fi; done'" \
+        'Restart=always' \
+        'RestartSec=5' \
+        '' \
+        '[Install]' \
+        'WantedBy=multi-user.target' \
+        >"${HEADSET_RECONNECT_SERVICE}"
+
+    systemctl daemon-reload
+    systemctl enable --now headset-reconnect.service
+    ok "Da bat headset-reconnect.service. Khi tai nghe da pair/trust, Pi tu thu connect lai neu bi ngat."
+}
+
+check_bluetooth_audio() {
+    log "Kiem tra micro SCO va loa A2DP cua tai nghe"
+
+    # Tai nghe Bluetooth thuong khong dung A2DP va SCO cung luc.
+    # Ung dung mo SCO khi thu micro, roi mo lai A2DP khi phat am thanh.
+    if timeout --signal=INT 5s arecord -q -D "${BT_CAPTURE_DEVICE}" -t raw -f S16_LE -c 1 -r 8000 -d 1 /dev/null 2>/tmp/bluealsa-capture.err; then
+        BT_CAPTURE_STATUS="OK: SCO CVSD mono 8 kHz"
+        ok "Da thu duoc micro SCO CVSD trong 1 giay."
+    else
+        BT_CAPTURE_STATUS="LOI: khong mo duoc SCO capture"
+        warn "Tai nghe da connect nhung chua mo duoc micro SCO. Xem /tmp/bluealsa-capture.err"
+    fi
+
+    # Thu A2DP sau cung de tra tai nghe ve che do phat am thanh chat luong cao.
+    if timeout 12s aplay -q -D "${BT_PLAYBACK_DEVICE}" -t raw -f S16_LE -c 2 -r 48000 -d 1 /dev/zero 2>/tmp/bluealsa-playback.err; then
+        BT_PLAYBACK_STATUS="OK: A2DP stereo 48 kHz; day la profile cuoi"
+        ok "Da mo duoc loa A2DP; tai nghe dang o profile phat am thanh."
+    else
+        BT_PLAYBACK_STATUS="LOI: khong mo duoc A2DP playback"
+        warn "Tai nghe da connect nhung chua mo duoc loa A2DP. Xem /tmp/bluealsa-playback.err"
+    fi
+}
+
+overlay_exists() {
+    if [[ -f "${OVERLAY_README}" ]] && grep -Eq "^[[:space:]]*Name:[[:space:]]+${MAX98357A_OVERLAY}([[:space:]]|$)" "${OVERLAY_README}"; then
+        return 0
+    fi
+
+    [[ -f "/boot/firmware/overlays/${MAX98357A_OVERLAY}.dtbo" ]]
+}
+
+ensure_config_line() {
+    local line="$1"
+    local file="$2"
+
+    touch "${file}"
+    if grep -Fxq "${line}" "${file}"; then
+        ok "Da co san: ${line}"
+    else
+        printf '%s\n' "${line}" >>"${file}"
+        ok "Da them: ${line}"
+        REBOOT_NEEDED=1
+    fi
+}
+
+configure_camera_boot() {
+    log "Cau hinh firmware camera"
+
+    if [[ ! -f "${BOOT_CONFIG}" ]]; then
+        CAMERA_STATUS="khong thay ${BOOT_CONFIG}"
+        warn "Khong thay ${BOOT_CONFIG}; bo qua cau hinh camera."
+        return 0
+    fi
+
+    if ! grep -Fxq "camera_auto_detect=1" "${BOOT_CONFIG}"; then
+        CAMERA_REBOOT_NEEDED=1
+    fi
+    ensure_config_line "camera_auto_detect=1" "${BOOT_CONFIG}"
+
+    rm -f /etc/modules-load.d/bcm2835-isp.conf
+    printf '%s\n' \
+        '[Unit]' \
+        'Description=Load Raspberry Pi camera ISP after firmware is ready' \
+        'After=local-fs.target' \
+        '' \
+        '[Service]' \
+        'Type=oneshot' \
+        "ExecStart=/bin/bash -c 'for attempt in {1..10}; do /sbin/modprobe bcm2835-isp || true; if /usr/bin/grep -q bcm2835-isp /sys/class/video4linux/video*/name 2>/dev/null; then exit 0; fi; /sbin/modprobe -r bcm2835-isp 2>/dev/null || true; /bin/sleep 2; done; exit 1'" \
+        'RemainAfterExit=yes' \
+        '' \
+        '[Install]' \
+        'WantedBy=multi-user.target' \
+        >"${CAMERA_ISP_SERVICE}"
+
+    systemctl daemon-reload
+    systemctl enable camera-isp.service
+    if modprobe bcm2835-isp; then
+        ok "Da nap bcm2835-isp va bat camera-isp.service tu thu lai sau moi lan khoi dong."
+    else
+        warn "Khong nap duoc bcm2835-isp. Xem: modprobe bcm2835-isp; dmesg | grep -i bcm2835"
+    fi
+
+    if grep -Eq '^gpu_mem(_256|_512|_1024)?=16$' "${BOOT_CONFIG}"; then
+        sed -i \
+            -e 's/^gpu_mem=16$/gpu_mem=64/' \
+            -e 's/^gpu_mem_256=16$/gpu_mem_256=64/' \
+            -e 's/^gpu_mem_512=16$/gpu_mem_512=64/' \
+            -e 's/^gpu_mem_1024=16$/gpu_mem_1024=64/' \
+            "${BOOT_CONFIG}"
+        REBOOT_NEEDED=1
+        CAMERA_REBOOT_NEEDED=1
+        ok "Da doi gpu_mem 16 thanh 64 MB de khong boot firmware start_cd thieu ISP."
+    else
+        ok "GPU memory khong o muc 16 MB; firmware camera ISP khong bi start_cd vo hieu hoa."
+    fi
+}
+
+configure_max98357a() {
+    log "Cau hinh ALSA/I2S cho MAX98357A"
+
+    if [[ ! -d /boot/firmware ]]; then
+        ALSA_STATUS="khong thay /boot/firmware"
+        warn "Khong thay /boot/firmware. Bo qua cau hinh MAX98357A."
+        return 0
+    fi
+
+    if ! overlay_exists; then
+        ALSA_STATUS="khong tim thay overlay ${MAX98357A_OVERLAY}"
+        warn "Khong xac nhan duoc overlay '${MAX98357A_OVERLAY}' trong ${OVERLAY_README} hoac /boot/firmware/overlays/${MAX98357A_OVERLAY}.dtbo. Khong sua boot config de tranh doan sai overlay."
+        return 0
+    fi
+
+    ensure_config_line "dtparam=audio=off" "${BOOT_CONFIG}"
+    ensure_config_line "dtparam=i2s=on" "${BOOT_CONFIG}"
+    ensure_config_line "dtoverlay=${MAX98357A_OVERLAY}" "${BOOT_CONFIG}"
+
+    ALSA_STATUS="da cau hinh ${MAX98357A_OVERLAY}: GPIO18 BCLK, GPIO19 LRC/WS, GPIO21 DIN"
+    warn "MAX98357A dung I2S mac dinh cua Pi: GPIO18 BCLK, GPIO19 LRC/WS, GPIO21 DIN."
+}
+
+check_camera() {
+    log "Kiem tra camera bang rpicam-jpeg"
+
+    if [[ "${CAMERA_REBOOT_NEEDED}" -eq 1 ]]; then
+        CAMERA_STATUS="da sua gpu_mem; cho reboot roi kiem tra"
+        warn "Da sua firmware camera. Reboot xong chay lai script de chup anh kiem tra."
+        return 0
+    fi
+
+    if ! need_cmd rpicam-jpeg; then
+        CAMERA_STATUS="khong co rpicam-jpeg"
+        fail "Khong tim thay rpicam-jpeg sau khi cai camera package."
+    fi
+
+    if ! timeout 15s rpicam-jpeg --version >/tmp/rpicam-version.out 2>/tmp/rpicam-version.err; then
+        CAMERA_STATUS="rpicam-jpeg --version loi"
+        warn "rpicam-jpeg --version khong chay thanh cong. Neu co Segmentation fault, can kiem tra lai image/architecture camera stack."
+        return 0
+    fi
+
+    local jpg="/dev/shm/ai_green_eye_camera_test.jpg"
+    rm -f "${jpg}"
+
+    if ! timeout 20s rpicam-jpeg -n -t 1000 -o "${jpg}" >/tmp/rpicam-capture.out 2>/tmp/rpicam-capture.err; then
+        CAMERA_STATUS="chup anh that bai"
+        warn "rpicam-jpeg chay duoc nhung chup anh that bai. Kiem tra day camera va cau hinh camera."
+        rm -f "${jpg}"
+        return 0
+    fi
+
+    if [[ ! -s "${jpg}" ]]; then
+        CAMERA_STATUS="file JPEG rong"
+        warn "Camera tao file rong."
+        rm -f "${jpg}"
+        return 0
+    fi
+
+    if head -c 2 "${jpg}" | od -An -tx1 | grep -qi "ff d8"; then
+        CAMERA_STATUS="OK"
+        ok "Camera chup JPEG hop le."
+    else
+        CAMERA_STATUS="header JPEG khong hop le"
+        warn "File camera khong co header JPEG hop le."
+    fi
+
+    rm -f "${jpg}"
+}
+
+print_report() {
+    local machine arch tailscale_hint reboot_hint
+    machine="$(uname -m)"
+    arch="$(dpkg --print-architecture)"
+
+    tailscale_hint=""
+    if [[ "${TAILSCALE_STATUS}" == *"chua dang nhap"* ]]; then
+        tailscale_hint=" Can chay: sudo tailscale up"
+    fi
+
+    reboot_hint="khong"
+    if [[ "${REBOOT_NEEDED}" -eq 1 ]]; then
+        reboot_hint="co, vi da sua ${BOOT_CONFIG}"
+    fi
+
+    cat <<REPORT
+
+================ BAO CAO SETUP PI ZERO 2 W ================
+Kien truc:
+  uname -m:              ${machine}
+  dpkg architecture:     ${arch}
+
+Camera:
+  Trang thai:            ${CAMERA_STATUS}
+
+Bluetooth:
+  BlueALSA:              ${BLUEALSA_STATUS}
+  Connected:             ${BT_STATUS}
+  Paired:                ${BT_PAIR_STATUS}
+  Trusted:               ${BT_TRUST_STATUS}
+  Loa A2DP:              ${BT_PLAYBACK_STATUS}
+  Micro SCO:             ${BT_CAPTURE_STATUS}
+  Tai nghe co dinh:      ${HEADSET_MAC}
+  Playback device:       ${BT_PLAYBACK_DEVICE}
+  Capture device:        ${BT_CAPTURE_DEVICE}
+
+Tailscale:
+  Trang thai:            ${TAILSCALE_STATUS}${tailscale_hint}
+
+ALSA/MAX98357A:
+  Trang thai:            ${ALSA_STATUS}
+  Chan dau noi:          GPIO18 BCLK, GPIO19 LRC/WS, GPIO21 DIN
+
+Can reboot:
+  ${reboot_hint}
+
+Script khong tu reboot. Neu muc "Can reboot" la co, hay chay:
+  sudo reboot
+============================================================
+REPORT
+}
+
+main() {
+    require_root
+    require_arm64
+    apt_install_minimal
+    install_enable_tailscale
+    configure_bluealsa
+    setup_bluetooth_headset
+    install_headset_reconnect_service
+    configure_camera_boot
+    configure_max98357a
+    check_camera
+    print_report
+}
+
+main "$@"

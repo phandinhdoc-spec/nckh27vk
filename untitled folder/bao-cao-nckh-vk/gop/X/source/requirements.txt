@@ -1,0 +1,8 @@
+# Raspberry Pi Zero 2 W / DietPi 64-bit GPIO dependencies.
+# gpiozero is the Python API and lgpio is its modern pin backend.
+# Prefer DietPi/Debian packages on the Pi:
+#   sudo apt update
+#   sudo apt install -y python3-gpiozero python3-lgpio
+# These pip requirements are useful inside a compatible virtualenv.
+gpiozero>=2.0
+lgpio>=0.2.2.0

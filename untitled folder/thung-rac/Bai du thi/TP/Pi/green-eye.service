@@ -1,0 +1,17 @@
+[Unit]
+Description=Green Eye camera client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=greeneye
+Group=greeneye
+EnvironmentFile=/etc/green-eye.env
+WorkingDirectory=/opt/green-eye
+ExecStart=/usr/bin/python3 /opt/green-eye/app.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
