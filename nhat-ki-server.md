@@ -9,7 +9,7 @@
 
 ## Lưu ý về cách ghi nhật kí
 
-Nhật kí này được tái dựng từ quá trình phát triển thực tế, tài liệu và mã nguồn hiện còn lưu. Một số mốc trước tháng 9/2026 không còn giờ làm việc chính xác nên được ghi theo tiến trình hợp lí của dự án. Nội dung được viết theo cách học sinh THCS có thể hiểu và trình bày.
+Nhật kí này được tái dựng từ quá trình phát triển thực tế, tài liệu và mã nguồn hiện còn lưu. Một số mốc trước tháng 9/2026 không còn ngày, giờ làm việc chính xác. Các mốc này là **tái dựng hồi cứu** từ sản phẩm cuối, tài liệu còn lưu và hướng phát triển của nhóm; vì vậy chúng mô tả quá trình hình thành phương án, không được xem là bằng chứng rằng một chức năng đã hoàn thành đúng ngày ghi. Từ tháng 9/2026, nhật kí ưu tiên các sự việc có thể đối chiếu với mã nguồn và quá trình thử nghiệm còn lưu. Nội dung được viết theo cách học sinh THCS có thể hiểu và trình bày.
 
 AI được dùng để hỗ trợ tìm hiểu ý tưởng, gợi ý cách lập trình, giải thích lỗi và phản biện phương án. Nhóm học sinh vẫn phải tự lựa chọn phương án, chạy thử, quan sát kết quả và quyết định giữ hay bỏ giải pháp.
 
@@ -100,8 +100,8 @@ Nhóm chọn Swift để tận dụng máy Mac và các thư viện có sẵn. H
 Nhóm tạo cấu trúc chương trình gồm phần cấu hình, phần Server, phần lệnh, phần AI, phần hình ảnh và phần chuyển văn bản thành âm thanh.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Dự án Server có thể biên dịch bằng Swift Package Manager.
-- Có cấu trúc thư mục rõ ràng để dễ sửa từng phần.
+- Chọn Swift Package Manager để quản lí dự án.
+- Hình thành cách chia chương trình thành các phần nhỏ để sau này dễ kiểm tra và sửa lỗi.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Tách các chức năng ra nhiều thư mục giúp học sinh dễ biết lỗi đang nằm ở phần nào hơn là viết tất cả vào một file dài.
@@ -130,9 +130,8 @@ Nhóm tạo đường dẫn kiểm tra trạng thái để biết Server còn ho
 Việc có một đường dẫn kiểm tra riêng rất hữu ích vì khi Pi không nhận được câu trả lời, nhóm có thể kiểm tra xem lỗi nằm ở mạng hay ở AI.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Server khởi động được.
-- Có API kiểm tra sức khỏe hệ thống.
-- Có thể nhận yêu cầu HTTP cơ bản.
+- Hình thành yêu cầu phải có một API kiểm tra trạng thái riêng (`/health`).
+- Kết quả Server chạy thực tế được xác nhận ở giai đoạn thử nghiệm tháng 9; mốc này chỉ ghi lại bước xây dựng phương án.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Phải kiểm tra từng tầng riêng: Server chạy chưa, mạng có thông chưa, rồi mới kiểm tra AI.
@@ -161,9 +160,8 @@ Nhóm thêm phần cấu hình khóa API và model. Server nhận câu hỏi, g�
 Nhóm nhận thấy khóa API không được ghi trực tiếp vào mã nguồn vì khi đưa dự án lên GitHub sẽ dễ bị lộ. Vì vậy thông tin bí mật được chuyển sang file môi trường.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Server gọi được AI qua API.
-- Tách khóa API khỏi mã nguồn.
-- Có đường dẫn xử lí AI riêng.
+- Chọn cách gọi AI qua API và tách khóa bí mật sang biến môi trường.
+- Việc gọi model thực tế tiếp tục được kiểm tra ở các giai đoạn sau.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Bảo mật khóa API là yêu cầu quan trọng ngay cả với dự án học sinh.
@@ -192,9 +190,8 @@ Nhóm thử gửi ảnh lên Server cùng câu hỏi như “phía trước có 
 Nhóm cũng khảo sát khả năng đọc chữ trong ảnh để hỗ trợ người dùng đọc nhãn, biển báo hoặc văn bản ngắn.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Server có thể nhận ảnh.
-- Có phần xử lí thị giác và OCR.
-- Câu trả lời văn bản có thể dùng tiếp cho bước phát âm thanh.
+- Xác định Server cần nhận được ảnh JPEG và có phần xử lí thị giác/OCR.
+- Xác định đầu ra văn bản của bước này sẽ được dùng tiếp để tạo lời nói.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Ảnh quá lớn làm thời gian truyền và xử lí tăng. Pi chỉ nên chụp khi câu lệnh thật sự cần quan sát.
@@ -223,8 +220,8 @@ Sau khi AI sinh câu trả lời, Server chuyển văn bản thành giọng nói
 Nhóm chọn MP3 vì dung lượng nhỏ hơn WAV, phù hợp truyền qua mạng.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Server có thể tạo dữ liệu âm thanh từ câu trả lời.
-- Cần cài bộ mã hóa `lame` trên máy chủ.
+- Chọn hướng tạo âm thanh trả lời và mã hóa MP3; bộ mã hóa `lame` được đưa vào cấu hình Server hiện tại.
+- Chưa ghi số liệu về thời gian tạo âm thanh ở mốc hồi cứu này.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Không nên gửi file âm thanh quá lớn vì làm phản hồi chậm.
@@ -252,8 +249,8 @@ Nhóm xây dựng luồng: nhận câu lệnh → xác định cần quan sát h
 Việc tách bước “lập kế hoạch” giúp tránh việc lúc nào cũng chụp ảnh.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Có API `/plan` và `/command`.
-- Các phần xử lí được ghép thành một chuỗi tương đối hoàn chỉnh.
+- Thiết kế hai nhiệm vụ chính: lập kế hoạch xử lí và thực hiện câu lệnh; kiến trúc hiện tại thể hiện bằng `/plan` và `/command`.
+- Chưa có số đo thời gian phản hồi ở mốc hồi cứu này.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Cần giới hạn số bước để phản hồi không quá chậm.
@@ -336,13 +333,13 @@ Tìm nguyên nhân Server gọi AI bị lỗi dù mã nguồn vẫn biên dịch
 - API AI.
 
 ## 3. TIẾN TRÌNH THỰC HIỆN & HIỆN TƯỢNG
-Server trả lỗi HTTP 404 khi gọi model cũ. Nhóm kiểm tra và xác định nguyên nhân không nằm ở logic Server mà do tên model trong cấu hình đã không còn được dịch vụ hỗ trợ cho tài khoản mới.
+Server trả lỗi HTTP 404 khi gọi model cấu hình lúc đó. Nhóm kiểm tra thông báo từ API và thử model khác; kết quả cho thấy lỗi liên quan đến model/cấu hình dịch vụ chứ không phải lỗi biên dịch của Server.
 
 Nhóm thử model mới trước khi thay đổi cấu hình chính để tránh sửa nhiều thứ cùng lúc.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Xác định được lỗi do model cũ bị ngừng hỗ trợ.
-- Server vẫn hoạt động bình thường sau khi dùng model hợp lệ.
+- Khoanh vùng được lỗi ở phần model/cấu hình API.
+- Xác nhận cần thử API độc lập trước khi sửa mã nguồn Server.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Khi gặp lỗi, không nên mặc định cho rằng mã nguồn sai. Cần kiểm tra cả API, cấu hình và dịch vụ bên ngoài.
@@ -371,7 +368,7 @@ Giảm chi phí gọi AI và chuẩn hóa luồng Server – Pi.
 Luồng được chuẩn hóa: Pi nghe mic và nhận dạng lời nói, gửi văn bản cùng dữ liệu cảm biến lên Server. Nếu câu lệnh cần quan sát, Pi gửi thêm ảnh. Server dùng AI để trả lời rồi tạo MP3 gửi về Pi.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-Các API chính hiện gồm kiểm tra trạng thái, lập kế hoạch, AI, OCR, TTS và xử lí lệnh.
+Đối chiếu mã nguồn hiện tại cho thấy Server có các đường dẫn chính cho kiểm tra trạng thái, lập kế hoạch, AI, OCR, TTS và xử lí lệnh. Đây là cấu trúc phần mềm hiện có; nhật kí chưa coi đó là số liệu chứng minh độ chính xác của AI.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Giữ Server tập trung vào chức năng cốt lõi làm hệ thống dễ hiểu và dễ kiểm tra hơn.
@@ -399,7 +396,8 @@ Trước đây phần Git chủ yếu nằm trong thư mục Server. Nhóm chuy�
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
 - Toàn bộ dự án được đưa lên repository chung.
-- Có thể theo dõi Server và Pi trong cùng một lịch sử phát triển.
+- Server và Pi hiện được quản lí trong cùng repository.
+- **Chưa có đủ số liệu định lượng** về độ trễ, tỉ lệ trả lời đúng và độ ổn định chạy dài; đây là phần phải đo tiếp.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Cấu trúc lưu trữ rõ ràng giúp tránh tình trạng sửa đúng code nhưng lại cập nhật nhầm repository.
@@ -408,3 +406,15 @@ Cấu trúc lưu trữ rõ ràng giúp tránh tình trạng sửa đúng code nh
 Tiếp tục kiểm thử thực tế, đo thời gian phản hồi và bổ sung số liệu định lượng cho báo cáo nghiên cứu.
 
 **Ghi nhận sử dụng AI:** AI hỗ trợ hệ thống hóa lại nhật kí từ mã nguồn và lịch sử làm việc; nhóm cần kiểm tra lại từng mốc trước khi dùng trong hồ sơ chính thức.
+
+
+## BẢNG SỐ LIỆU CẦN BỔ SUNG SAU THỬ NGHIỆM
+
+| Nội dung đo | Cách đo dự kiến | Số lần thử tối thiểu | Kết quả |
+|---|---|---:|---|
+| Thời gian Server xử lí câu hỏi không cần ảnh | tính từ lúc nhận request đến lúc trả MP3 | 10 | Chưa đo |
+| Thời gian xử lí câu hỏi có ảnh | cùng cách trên, có JPEG | 10 | Chưa đo |
+| Tỉ lệ request thành công | số request thành công / tổng số request | 20 | Chưa đo |
+| Độ ổn định chạy liên tục | cho Server chạy và ghi lỗi | 1–2 giờ | Chưa đo |
+
+> **Nguyên tắc:** chỉ điền số sau khi nhóm trực tiếp thử và lưu kết quả; không dùng số do AI ước lượng.
