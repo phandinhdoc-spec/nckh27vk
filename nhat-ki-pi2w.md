@@ -9,7 +9,7 @@
 
 ## Lưu ý về cách ghi nhật kí
 
-Nhật kí này được tái dựng từ quá trình phát triển thực tế, tài liệu và mã nguồn hiện còn lưu. Một số mốc trước tháng 9/2026 không còn giờ làm việc chính xác nên được ghi theo tiến trình hợp lí của dự án. Nội dung được viết theo cách học sinh THCS có thể hiểu, có thể tự trình bày khi báo cáo sản phẩm.
+Nhật kí này được tái dựng từ quá trình phát triển thực tế, tài liệu và mã nguồn hiện còn lưu. Một số mốc trước tháng 9/2026 không còn ngày, giờ làm việc chính xác. Các mốc này là **tái dựng hồi cứu** từ sản phẩm cuối, tài liệu còn lưu và hướng phát triển của nhóm; chúng mô tả quá trình hình thành phương án chứ không khẳng định thiết bị đã hoàn thành đúng ngày ghi. Từ tháng 9/2026, nhật kí ưu tiên những việc có thể đối chiếu với mã nguồn, cách đấu nối và thử nghiệm còn lưu. Nội dung được viết để học sinh THCS có thể hiểu và tự trình bày.
 
 AI được dùng để hỗ trợ giải thích nguyên lí cảm biến, gợi ý cách lập trình, tìm lỗi và so sánh phương án. Nhóm học sinh vẫn phải tự lắp mạch, chạy thử, quan sát kết quả, ghi lại lỗi và quyết định giữ hay thay đổi phương án.
 
@@ -63,8 +63,8 @@ Kiểm tra camera có thể dùng để quan sát vật phía trước hay khôn
 Camera được dự kiến đặt gần tầm mắt để hình ảnh thu được gần với hướng nhìn của người dùng. Nhóm thử chụp ảnh trong nhà và nhận thấy góc camera, độ cao camera và độ nghiêng đều ảnh hưởng mạnh đến việc ước lượng vị trí vật.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Camera có thể chụp ảnh đủ để AI nhận dạng vật.
-- Xác định cần biết độ cao camera và góc nghiêng để hỗ trợ tính khoảng cách thực tế.
+- Xác định camera là nguồn ảnh chính cho hệ thống.
+- Nhận ra độ cao và góc nghiêng camera là những đại lượng cần khảo sát nếu muốn suy luận khoảng cách; chưa có số liệu sai số ở mốc này.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Chỉ nhìn ảnh 2D thì khó biết chính xác vật cách người dùng bao xa.
@@ -234,8 +234,8 @@ Chuyển câu nói tiếng Việt thành văn bản để Server hiểu được
 Nhóm thử hai kiểu nói: “Thiên Nhãn mấy giờ rồi” trong một câu và nói “Thiên Nhãn”, sau đó mới nói câu hỏi ở lượt tiếp theo.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Nhận dạng được câu lệnh tiếng Việt.
-- Từ khóa đánh thức hỗ trợ cả dạng cùng câu và hai lượt.
+- Thiết kế luồng nhận dạng tiếng Việt bằng Whisper và cơ chế từ khóa đánh thức ở dạng cùng câu hoặc hai lượt.
+- Độ chính xác nhận dạng trong môi trường thật chưa được đo ở mốc hồi cứu này.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Cần bỏ qua các câu không có từ khóa để tránh kích hoạt nhầm.
@@ -292,8 +292,8 @@ Nhóm chọn mạch khuếch đại âm thanh MAX98357A nối với các chân I
 Đường âm thanh chính được cố định qua MAX98357A để tránh phụ thuộc tai nghe Bluetooth.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Loa có thể phát phản hồi từ Server.
-- Bluetooth không còn là điều kiện bắt buộc để thiết bị hoạt động.
+- Chọn MAX98357A làm đường phát âm thanh chính trong kiến trúc hiện tại.
+- Bluetooth được chuyển thành chức năng phụ, không phải điều kiện bắt buộc.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Bluetooth có thể kết nối chậm hoặc không ổn định, nên không nên dùng làm đường âm thanh duy nhất.
@@ -325,8 +325,8 @@ Mã nguồn được chia thành các file như `devices.py`, `sensors.py`, `con
 Nếu một cảm biến bị lỗi hoặc chưa cắm, chương trình vẫn tiếp tục chạy và trả giá trị rỗng thay vì dừng toàn bộ hệ thống.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Pi có thể đọc nhiều thiết bị trong một chương trình.
-- Thiếu một cảm biến không làm hệ thống ngừng hoàn toàn.
+- Mã nguồn hiện tại được thiết kế để quản lí nhiều thiết bị và cho phép giá trị cảm biến rỗng khi thiết bị không sẵn sàng.
+- Cần tiếp tục thử rút/cắm cảm biến thật để xác nhận khả năng chịu lỗi.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Thiết bị thật phải chịu được tình huống một phần cứng bị rút hoặc mất kết nối.
@@ -355,8 +355,8 @@ Nhóm viết script để cài các gói cần thiết, bật camera, UART, I2C,
 Nhờ script này, nếu Pi phải cài lại hệ điều hành thì có thể phục hồi môi trường nhanh hơn và giảm lỗi do quên bước.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Có script cài đặt tự động.
-- Chương trình có thể chạy bằng service và tự khởi động lại khi lỗi.
+- Có script `setup_pi2w.sh` để tự động hóa cài đặt.
+- Script cấu hình service chạy chương trình; trạng thái hoạt động sau mỗi lần cài mới vẫn phải kiểm tra bằng `systemctl`.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Cài thủ công từng lần rất dễ tạo ra hai Pi có cấu hình khác nhau.
@@ -384,8 +384,8 @@ Kết nối cảm biến chuyển động và cảm biến áp suất với Rasp
 Nhóm chuẩn hóa kết nối GY25 qua UART và GY63 qua I2C. GY63 dùng bus I2C số 1, với SDA ở GPIO2 và SCL ở GPIO3. GY25 dùng cổng serial của Pi.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- GY25 cung cấp yaw, pitch, roll.
-- GY63 cung cấp áp suất, nhiệt độ và độ cao ước lượng.
+- Theo mã nguồn hiện tại, GY25 được dùng để lấy yaw, pitch, roll; GY63/MS5611 được dùng để lấy áp suất, nhiệt độ và độ cao ước lượng.
+- Chưa ghi số liệu hiệu chuẩn và sai số thực nghiệm của hai cảm biến.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Phải phân biệt số GPIO và số chân vật lí trên Pi; nhầm hai loại số này có thể đấu sai mạch.
@@ -413,8 +413,8 @@ Kiểm tra toàn bộ chương trình trên Pi vừa cài lại.
 Sau khi cài lại DietPi, nhóm kiểm tra địa chỉ mạng và thử SSH từ Mac vào Pi. Đồng thời rà lại file setup để đảm bảo các phần camera, âm thanh, UART, I2C và service vẫn phù hợp với hệ điều hành mới.
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
-- Pi có thể được quản lí từ xa qua SSH.
-- Có thể tiếp tục triển khai mã nguồn mà không cần gắn màn hình và bàn phím vào Pi.
+- Trong lần dò mạng ngày 25/09, phép quét chỉ thấy cổng SSH mở trên chính máy Mac (`10.139.245.175`), nên **chưa thể coi đó là bằng chứng đã tìm thấy Pi qua mạng LAN**.
+- Việc SSH vào Pi chỉ được ghi là hoàn thành khi xác định đúng IP/hostname của Pi và đăng nhập thành công.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Khi cài lại hệ điều hành, địa chỉ IP, tên thiết bị hoặc cấu hình mạng có thể thay đổi nên cần kiểm tra lại trước khi cho rằng chương trình bị lỗi.
@@ -444,8 +444,9 @@ Luồng hiện tại được xác định rõ: mic USB → phát hiện tiếng
 
 ## 4. KẾT QUẢ & SỐ LIỆU THÔ
 - Mã nguồn Pi được lưu cùng Server trên GitHub.
-- Pi chỉ làm phần thu nhận dữ liệu và điều khiển thiết bị, không chạy AI nặng.
-- Dữ liệu mic không được lưu lâu dài; ảnh và âm thanh phản hồi có cơ chế lưu lịch sử giới hạn.
+- Kiến trúc hiện tại giữ Pi ở vai trò thu nhận dữ liệu và điều khiển thiết bị; AI nặng chạy ngoài Pi.
+- Theo mã nguồn/tài liệu hiện tại, âm thanh mic chỉ dùng tạm trong quá trình nhận dạng; ảnh và âm thanh phản hồi có cơ chế lịch sử giới hạn.
+- **Chưa có đủ số liệu thực nghiệm** về pin, độ trễ, độ chính xác cảm biến và khả năng nhận lệnh trong môi trường ồn.
 
 ## 5. RÚT KINH NGHIỆM & LỖI SAI
 Hệ thống đã có kiến trúc rõ nhưng vẫn cần nhiều số liệu thực nghiệm như thời gian phản hồi, tỉ lệ nhận đúng câu lệnh, độ chính xác cảm biến và thời lượng pin.
@@ -458,3 +459,19 @@ Hệ thống đã có kiến trúc rõ nhưng vẫn cần nhiều số liệu th
 - Bổ sung các số liệu thực nghiệm vào báo cáo nghiên cứu.
 
 **Ghi nhận sử dụng AI:** AI hỗ trợ hệ thống hóa nhật kí từ mã nguồn và quá trình làm việc; nhóm cần kiểm tra lại từng mốc trước khi dùng trong hồ sơ chính thức.
+
+
+## BẢNG SỐ LIỆU CẦN BỔ SUNG SAU THỬ NGHIỆM
+
+| Nội dung đo | Cách đo dự kiến | Số lần thử tối thiểu | Kết quả |
+|---|---|---:|---|
+| Thời gian từ khi nói xong đến khi nghe phản hồi | bấm giờ/video quay chậm | 10 | Chưa đo |
+| Nhận đúng từ khóa “Thiên Nhãn” ở phòng yên | số lần nhận đúng / tổng số lần | 20 | Chưa đo |
+| Nhận đúng từ khóa ở nơi có tiếng ồn | như trên | 20 | Chưa đo |
+| Sai số GY-53/VL53L1X | so với thước ở nhiều khoảng cách | 5 khoảng cách × 5 lần | Chưa đo |
+| Sai số góc nghiêng | so với góc chuẩn | 5 góc × 5 lần | Chưa đo |
+| Độ ổn định GY63 | để yên và theo dõi độ cao ước lượng | 10 phút | Chưa đo |
+| Thời lượng pin | chạy đúng cấu hình sản phẩm | ít nhất 1 chu kỳ pin | Chưa đo |
+| Chạy liên tục | ghi lỗi/restart | 1–2 giờ | Chưa đo |
+
+> **Nguyên tắc:** chỉ điền số do nhóm trực tiếp đo. Nếu thử thất bại vẫn ghi kết quả thất bại và nguyên nhân; không thay bằng số ước lượng từ AI.
