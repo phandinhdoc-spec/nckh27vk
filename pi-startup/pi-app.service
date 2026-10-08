@@ -1,0 +1,22 @@
+[Unit]
+Description=Pi app after network clock bootstrap and Tailscale login
+Wants=network-online.target tailscaled.service
+After=network-online.target tailscaled.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pi
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/root/pi/.env
+ExecStartPre=/usr/bin/python3 -u /usr/local/lib/pi-startup/tailscale_ready.py
+ExecStart=/usr/bin/python3 -u /root/pi/app.py
+Restart=always
+RestartSec=5
+TimeoutStartSec=infinity
+TimeoutStopSec=20
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
