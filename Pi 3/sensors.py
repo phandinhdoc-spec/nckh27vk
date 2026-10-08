@@ -24,6 +24,10 @@ server so the server can reason about fall/altitude.
 from __future__ import annotations
 
 import time
+import json
+import os
+import tempfile
+from pathlib import Path
 from typing import Any, Optional
 
 
@@ -284,4 +288,35 @@ def read_sensors(
         payload["pressure"] = read_ms5611(ms5611_bus, ms5611_addr, ms5611_enabled)
     except Exception:
         payload["pressure"] = None
+    _publish_telemetry(payload)
     return payload
+
+
+def _publish_telemetry(payload: dict[str, Any]) -> None:
+    """Opt-in snapshot for Pi Control; never opens hardware or changes samples.
+
+    Set PI_CONTROL_TELEMETRY_PATH to a writable path. Samples are produced only
+    when the application actually reads sensors, not at the UI polling rate.
+    """
+    destination = os.environ.get("PI_CONTROL_TELEMETRY_PATH", "")
+    if not destination:
+        return
+    temporary = None
+    try:
+        target = Path(destination)
+        with tempfile.NamedTemporaryFile(mode="w", dir=target.parent,
+                                         prefix=".telemetry-", delete=False) as stream:
+            temporary = stream.name
+            json.dump({"timestamp": time.time(), "devices": payload}, stream,
+                      ensure_ascii=False, allow_nan=False)
+        os.chmod(temporary, 0o640)
+        os.replace(temporary, target)
+    except (OSError, ValueError, TypeError):
+        # Monitoring must never interrupt voice/sensor functionality.
+        pass
+    finally:
+        if temporary:
+            try:
+                os.unlink(temporary)
+            except OSError:
+                pass
