@@ -83,6 +83,15 @@ class State:
             return self.snapshot()
         if not self.demo and self.client is None:
             raise ValueError('Chưa kết nối Pi')
+        if route == '/api/files':
+            if self.demo:
+                raise ValueError('DEMO không truy cập file. Kết nối Pi để dùng.')
+            script = (ROOT / 'remote_files.py').read_text()
+            result = json.loads(self.client.execute(shlex.join(['python3', '-c', script]),
+                stdin=json.dumps(data, ensure_ascii=False).encode(), timeout=40))
+            if 'error' in result:
+                raise ValueError(result['error'])
+            return result
         if route == '/api/devices':
             if self.demo:
                 return {'DEMO — không phải dữ liệu thật': {'ok': True, 'text': 'USB microphone\nI²C bus 1\nBluetooth: headphones'}}
@@ -181,7 +190,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(403, {'error': 'Yêu cầu không được phép'})
         try:
             length = int(self.headers.get('Content-Length', '0'))
-            if not 0 <= length <= 16384:
+            if not 0 <= length <= (4 * 1024 * 1024 if urlsplit(self.path).path == '/api/files' else 16384):
                 raise ValueError('Yêu cầu quá lớn')
             data = json.loads(self.rfile.read(length) or b'{}')
             if not isinstance(data, dict):

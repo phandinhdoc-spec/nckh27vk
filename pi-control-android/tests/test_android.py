@@ -83,6 +83,26 @@ class AndroidTests(unittest.TestCase):
             state.dispatch('/api/service', {'action': 'start', 'unit': 'pi-app.service'})
             self.assertEqual(execute.call_args.args[0], 'systemctl start pi-app.service')
 
+    def test_file_api_roundtrip_and_auth(self):
+        import subprocess
+        import shlex
+        path = Path(self.temp.name) / 'settings.env'
+        path.write_text('old value')
+        def execute(command, stdin=None, timeout=40):
+            return subprocess.run(shlex.split(command), input=stdin, capture_output=True,
+                                  timeout=timeout, check=True).stdout
+        with patch.object(self.web.state, 'demo', False), patch.object(self.web.state, 'client', server.SSH('pi', 'root')), patch.object(server.SSH, 'execute', side_effect=execute):
+            request = {'action': 'read', 'path': str(path)}
+            self.assertEqual(self.request('POST', '/api/files', request, auth=False)[0], 403)
+            code, _, body = self.request('POST', '/api/files', request)
+            self.assertEqual(code, 200)
+            content = 'Tiếng Việt\n' * 5000
+            write = {'action': 'write', 'path': str(path), 'revision': json.loads(body)['revision'], 'content': content}
+            code, _, body = self.request('POST', '/api/files', write)
+            self.assertEqual(code, 200, body)
+            self.assertEqual(path.read_text(), content)
+            self.assertEqual(Path(json.loads(body)['backup']).read_text(), 'old value')
+
     def test_disconnect_removes_audio_and_connection(self):
         state = server.State(config_path=Path(self.temp.name)/'another.json')
         state.client = server.SSH('pi', 'root')

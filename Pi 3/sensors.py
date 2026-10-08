@@ -27,6 +27,8 @@ import time
 import json
 import os
 import tempfile
+import threading
+from functools import wraps
 from pathlib import Path
 from typing import Any, Optional
 
@@ -264,12 +266,45 @@ def read_ms5611(bus: int, address: int, enabled: bool = True) -> Optional[dict[s
 # ---------------------------------------------------------------------------
 
 
+_SENSOR_LOCK = threading.Lock()
+
+
+def _serialized(function):
+    @wraps(function)
+    def call(*args, **kwargs):
+        with _SENSOR_LOCK:
+            return function(*args, **kwargs)
+    return call
+
+
+def start_telemetry(gy25_device, gy25_baud, ms5611_bus, ms5611_addr,
+                    ms5611_enabled, telemetry_path, interval=2.0):
+    """Opt-in sampler within the owning application; shares its hardware lock.
+
+    Returns an Event to stop the daemon. Does not start another process or touch
+    camera/audio. An unset output path disables periodic sampling.
+    """
+    stop = threading.Event()
+    if not telemetry_path:
+        return stop
+    interval = max(1.0, float(interval))
+    def sample():
+        while not stop.is_set():
+            read_sensors(gy25_device, gy25_baud, ms5611_bus, ms5611_addr,
+                         ms5611_enabled, telemetry_path)
+            stop.wait(interval)
+    threading.Thread(target=sample, name="sensor-telemetry", daemon=True).start()
+    return stop
+
+
+@_serialized
 def read_sensors(
     gy25_device: str,
     gy25_baud: int,
     ms5611_bus: int,
     ms5611_addr: int,
     ms5611_enabled: bool,
+    telemetry_path: str | None = None,
 ) -> dict[str, Any]:
     """Build a compact sensor payload. Missing hardware becomes None values.
 
@@ -288,17 +323,21 @@ def read_sensors(
         payload["pressure"] = read_ms5611(ms5611_bus, ms5611_addr, ms5611_enabled)
     except Exception:
         payload["pressure"] = None
-    _publish_telemetry(payload)
+    _publish_telemetry(payload, telemetry_path, {
+        "imu": {"name": "GY25", "connection": f"UART {gy25_device or '(chưa cấu hình)'} · {gy25_baud} baud", "enabled": bool(gy25_device)},
+        "pressure": {"name": "GY63 / MS5611", "connection": f"I²C bus {ms5611_bus} · {ms5611_addr:#04x}", "enabled": ms5611_enabled},
+    })
     return payload
 
 
-def _publish_telemetry(payload: dict[str, Any]) -> None:
+def _publish_telemetry(payload: dict[str, Any], destination: str | None = None, metadata: dict | None = None) -> None:
     """Opt-in snapshot for Pi Control; never opens hardware or changes samples.
 
     Set PI_CONTROL_TELEMETRY_PATH to a writable path. Samples are produced only
     when the application actually reads sensors, not at the UI polling rate.
     """
-    destination = os.environ.get("PI_CONTROL_TELEMETRY_PATH", "")
+    if destination is None:
+        destination = os.environ.get("PI_CONTROL_TELEMETRY_PATH", "")
     if not destination:
         return
     temporary = None
@@ -307,7 +346,7 @@ def _publish_telemetry(payload: dict[str, Any]) -> None:
         with tempfile.NamedTemporaryFile(mode="w", dir=target.parent,
                                          prefix=".telemetry-", delete=False) as stream:
             temporary = stream.name
-            json.dump({"timestamp": time.time(), "devices": payload}, stream,
+            json.dump({"timestamp": time.time(), "devices": payload, "sensor_info": metadata or {}}, stream,
                       ensure_ascii=False, allow_nan=False)
         os.chmod(temporary, 0o640)
         os.replace(temporary, target)

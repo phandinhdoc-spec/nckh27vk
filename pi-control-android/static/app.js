@@ -6,7 +6,7 @@ function showError(error){$('error').textContent=error.message||String(error);$(
 function node(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
 let foregroundPending=false;
 let transport=Promise.resolve();
-const actionSelector='.actions button, #scan, #run, #record, #refresh, #connectForm button';
+const actionSelector='.actions button, #scan, #run, #record, #refresh, #connectForm button, #sensorRefresh, #fileList button';
 function actionButtons(disabled){document.querySelectorAll(actionSelector).forEach(e=>e.disabled=disabled);}
 async function request(route,data={},options={}){
   const background=options.background===true;
@@ -46,18 +46,69 @@ function render(data){
   const telemetry=data.telemetry;
   $('sensorStatus').textContent=demo?'Mẫu minh họa — không phải cảm biến thật':({'fresh':'Mẫu mới','stale':'DỮ LIỆU CŨ','unavailable':'Chưa có telemetry'}[telemetry.state]+` · Tuổi mẫu: ${telemetry.age_seconds??'—'} giây`+(telemetry.error?' · '+telemetry.error:''));
   $('sensors').replaceChildren();
-  function flatten(value,path){if(value!==null&&typeof value==='object'&&!Array.isArray(value)){for(const [key,item] of Object.entries(value))flatten(item,path?path+'.'+key:key);}else{const e=node('div','','sensor');e.append(node('span',path),node('b',value===null?'Chưa đọc được':String(value)));$('sensors').append(e);}}
-  flatten(telemetry.data?.devices||{},'');
+  renderSensors(telemetry);
+
 }
 function renderServices(){const filter=$('search').value.toLowerCase();$('serviceList').replaceChildren();$('serviceCount').textContent=rows.length+' service';for(const row of rows){if(!row.join(' ').toLowerCase().includes(filter))continue;const [unit,state,sub,enabled,description]=row;const card=node('article','','service');const head=node('div','','row');head.append(node('h3',unit),node('span',state,'badge '+(state==='active'?'':state==='failed'?'failed':'inactive')));card.append(head,node('p',`${sub} · ${enabled}`),node('p',description));const actions=node('div','','actions');for(const [label,action] of [['Chạy','start'],['Dừng','stop'],['Restart','restart'],['Tự chạy','enable'],['Bỏ tự chạy','disable'],['Log','logs']]){const b=node('button',label,action==='stop'?'danger':'');b.disabled=foregroundPending;b.addEventListener('click',()=>service(action,unit));actions.append(b);}card.append(actions);$('serviceList').append(card);}}
 async function refresh(){if(!connected||busy||foregroundPending)return;try{render(await request('/api/snapshot',{}, {background:true}));}catch(e){$('dot').classList.remove('online');$('status').textContent='Không đọc được Pi · dữ liệu cũ';$('sensorStatus').textContent='Chưa xác nhận mẫu mới — xem lỗi phía trên';showError(e);}}
 async function service(action,unit){if(action!=='logs'&&!confirm(`${demo?'DEMO — ':''}${action}: ${unit}?`))return;try{const result=await request('/api/service',{action,unit});$('output').textContent=result.message;if(action==='logs')page('commands');else await refresh();}catch(e){showError(e);}}
 $('settingsButton').onclick=()=>page('settings');document.querySelectorAll('nav button').forEach(e=>e.onclick=()=>page(e.dataset.page));$('search').oninput=renderServices;$('refresh').onclick=refresh;
-$('connectForm').onsubmit=async event=>{event.preventDefault();try{render(await request('/api/connect',Object.fromEntries(new FormData(event.target))));connected=true;page('overview');}catch(e){connected=false;$('dot').classList.remove('online');$('status').textContent='Kết nối thất bại';showError(e);}};
-$('disconnect').onclick=async()=>{try{await request('/api/disconnect');connected=false;$('dot').classList.remove('online');$('status').textContent='Đã ngắt · dữ liệu cũ';$('sensorStatus').textContent='Đã ngắt kết nối — mẫu từ lần đọc trước';$('recordResult').hidden=true;$('player').pause();$('player').removeAttribute('src');}catch(e){showError(e);}};
+$('connectForm').onsubmit=async event=>{event.preventDefault();if(!abandonEdit())return;try{clearEditor();$('fileList').textContent='Chọn thư mục để đọc từ Pi.';render(await request('/api/connect',Object.fromEntries(new FormData(event.target))));connected=true;page('overview');}catch(e){connected=false;$('dot').classList.remove('online');$('status').textContent='Kết nối thất bại';showError(e);}};
+$('disconnect').onclick=async()=>{if(!abandonEdit())return;try{clearEditor();$('fileList').textContent='Đã ngắt kết nối';await request('/api/disconnect');connected=false;$('dot').classList.remove('online');$('status').textContent='Đã ngắt · dữ liệu cũ';$('sensorStatus').textContent='Đã ngắt kết nối — mẫu từ lần đọc trước';$('recordResult').hidden=true;$('player').pause();$('player').removeAttribute('src');}catch(e){showError(e);}};
 $('scan').onclick=async()=>{try{const data=await request('/api/devices');$('deviceList').replaceChildren();for(const [name,value] of Object.entries(data)){$('deviceList').append(node('h3',name+(value.ok?'':' · không đọc được')),node('pre',value.text||'(không có dữ liệu)'));}}catch(e){showError(e);}};
 $('run').onclick=async()=>{const command=$('command').value;if(!confirm('Chạy trên Pi với quyền SSH:\n'+command))return;try{const data=await request('/api/command',{command});$('output').textContent=data.message;}catch(e){$('output').textContent=e.message;showError(e);}};
 $('record').onclick=async()=>{const seconds=Number($('seconds').value);if(!Number.isInteger(seconds)||seconds<1||seconds>120){showError(Error('Chọn thời lượng từ 1 đến 120 giây'));return;}if(!confirm(`Thu âm ${seconds} giây từ mic Pi?`))return;$('recordResult').hidden=true;$('player').pause();$('recordStatus').textContent=`Đang thu ${seconds} giây… giữ Termux hoạt động.`;try{const data=await request('/api/record',{device:$('audioDevice').value,seconds,rate:Number($('rate').value)});const url=data.url+'?t='+Date.now();$('player').src=url;$('download').href=url;$('recordResult').hidden=false;$('recordStatus').textContent='Thu xong. Bạn có thể nghe hoặc tải WAV.';}catch(e){$('recordStatus').textContent='Thu âm thất bại';showError(e);}};
 setInterval(()=>{if(lastSample&&Date.now()-lastSample>15000){$('dot').classList.remove('online');$('status').textContent='Mẫu hệ thống đã cũ · '+Math.floor((Date.now()-lastSample)/1000)+' giây';}if(!document.hidden)refresh();},5000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
 (async()=>{try{const response=await fetch('/api/config');const data=await response.json();if(!response.ok)throw Error(data.error);demo=data.demo;$('demo').hidden=!demo;for(const [key,value] of Object.entries(data.config)){const field=$('connectForm').elements.namedItem(key);if(field)field.value=value;}if(demo){connected=true;await refresh();}else page('settings');}catch(e){showError(e);}})();
+
+const measurementLabels={yaw:['Yaw','°'],pitch:['Pitch','°'],roll:['Roll','°'],yaw_deg:['Yaw','°'],pitch_deg:['Pitch','°'],roll_deg:['Roll','°'],pressure_pa:['Áp suất','Pa'],temperature_c:['Nhiệt độ','°C'],altitude_m:['Độ cao ước tính','m'],distance_mm:['Khoảng cách','mm'],distance_m:['Khoảng cách','m']};
+function renderSensors(telemetry){
+  const devices=telemetry.data?.devices||{};
+  const metadata=telemetry.data?.sensor_info||{};
+  if(!Object.keys(devices).length){$('sensors').append(node('div','Chưa có kết quả. Kiểm tra đường dẫn telemetry trong Cài đặt và bật xuất dữ liệu ở ứng dụng Pi.','panel'));return;}
+  for(const [key,value] of Object.entries(devices)){
+    const info=metadata[key]||{};
+    const card=node('article','','panel');
+    card.append(node('h3',info.name||({'imu':'Cảm biến góc (imu)','pressure':'Cảm biến áp suất (pressure)','distance':'Cảm biến khoảng cách (distance)'}[key]||key)));
+    if(!info.name)card.append(node('p','Nguồn chưa cung cấp tên model; không suy đoán từ cổng kết nối.','hint'));
+    if(info.connection)card.append(node('p',info.connection,'hint'));
+    card.append(node('p',info.enabled===false?'Đang tắt trong cấu hình':value===null?'Chưa đọc được cảm biến':telemetry.state==='fresh'?'Có mẫu mới':'Mẫu cũ — không phải giá trị hiện tại', 'badge'));
+    function values(v,path){
+      if(v!==null&&typeof v==='object'){for(const [k,item] of Object.entries(v))values(item,path?path+'.'+k:k);}
+      else {const [label,unit]=measurementLabels[path]||[path||'Kết quả',''];const line=node('div','','sensor');line.append(node('span',label),node('b',v===null?'Chưa có dữ liệu':String(v)+(unit?' '+unit:'')));card.append(line);}
+    }
+    values(value,'');$('sensors').append(card);
+  }
+}
+$('sensorRefresh').onclick=refresh;
+let openedFile=null, fileDirty=false, folderParent='/';
+function abandonEdit(){return !fileDirty||confirm('Bạn có thay đổi chưa lưu. Bỏ phần đang sửa để mở mục khác?');}
+function clearEditor(){openedFile=null;fileDirty=false;$('fileEditor').value='';$('fileEditorPanel').hidden=true;}
+async function browseFiles(path){
+  if(!abandonEdit())return;
+  try{const data=await request('/api/files',{action:'list',path});clearEditor();$('filePath').value=data.path;folderParent=data.parent;$('fileList').replaceChildren();
+    if(!data.entries.length)$('fileList').append(node('p','Thư mục trống'));
+    for(const entry of data.entries){const button=node('button',(entry.kind==='directory'?'▸ ':entry.kind==='link'?'↗ ':'')+entry.name,'fileEntry');button.disabled=['special','unavailable'].includes(entry.kind);button.onclick=()=>{if(entry.kind==='directory')browseFiles(entry.path);else if(entry.kind==='link'){$('filePath').value=entry.path;}else openFile(entry.path);};$('fileList').append(button);}
+  }catch(e){showError(e);}
+}
+async function openFile(path){
+  if(!abandonEdit())return;
+  try{const data=await request('/api/files',{action:'read',path});openedFile=data;fileDirty=false;$('filePath').value=data.path;$('editingPath').textContent=data.path;$('fileEditor').value=data.content;$('fileInfo').textContent=`${data.bytes} byte · quyền ${data.mode} · UID ${data.uid} / GID ${data.gid}`;$('fileSaveStatus').textContent='Đã mở file';$('fileEditorPanel').hidden=false;$('fileEditorPanel').scrollIntoView({behavior:'smooth'});}catch(e){showError(e);}
+}
+$('fileEditor').oninput=()=>{fileDirty=true;$('fileSaveStatus').textContent='Có thay đổi chưa lưu';};
+$('browseFiles').onclick=()=>browseFiles($('filePath').value);
+$('openFile').onclick=()=>openFile($('filePath').value);
+$('parentFolder').onclick=()=>browseFiles(folderParent);
+$('reloadFile').onclick=()=>{if(openedFile)openFile(openedFile.path);};
+$('saveFile').onclick=async()=>{
+  if(!openedFile)return;
+  const editing=openedFile, editorContent=$('fileEditor').value;
+  const crlf=editing.content.includes('\r\n')&&!editing.content.replaceAll('\r\n','').includes('\n');
+  const content=crlf?editorContent.replaceAll('\n','\r\n'):editorContent;
+  if(!confirm('Lưu thay đổi trên Pi bằng quyền SSH vào:\n'+editing.path+'\nBản sao file cũ sẽ được giữ lại.'))return;
+  try{const result=await request('/api/files',{action:'write',path:editing.path,revision:editing.revision,content});
+    if(openedFile===editing){openedFile.revision=result.revision;openedFile.content=content;fileDirty=$('fileEditor').value!==editorContent;$('fileSaveStatus').textContent=result.message+(result.backup?' · Bản sao: '+result.backup:'')+(fileDirty?' · Còn thay đổi mới chưa lưu':'');}
+  }catch(e){showError(e);}
+};
+window.addEventListener('beforeunload',e=>{if(fileDirty){e.preventDefault();e.returnValue='';}});

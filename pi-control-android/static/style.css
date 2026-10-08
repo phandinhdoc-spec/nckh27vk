@@ -2,3 +2,5 @@
 
 /* Status toast never blocks touches on the page beneath it. */
 .busy{pointer-events:none}
+
+nav{overflow-x:auto;justify-content:flex-start}nav button{min-width:60px}#editingPath{overflow-wrap:anywhere;font-size:14px}#fileEditor{font-family:monospace;white-space:pre;overflow:auto;font-size:14px;tab-size:4}#fileSaveStatus{overflow-wrap:anywhere}.fileEntry{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);border-radius:0;overflow-wrap:anywhere}#sensorPage .badge{white-space:normal}

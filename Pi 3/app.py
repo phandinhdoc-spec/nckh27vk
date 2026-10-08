@@ -18,7 +18,7 @@ from devices import (
 from groq_stt import GroqError, transcribe
 from history import History
 from mac_client import MacClient, MacClientError
-from sensors import read_sensors
+from sensors import read_sensors, start_telemetry
 
 
 _STARTUP_RETRY_SECONDS = 5
@@ -54,6 +54,8 @@ def main() -> int:
         print(f"[KHỞI ĐỘNG] Lỗi cấu hình: {error}", file=sys.stderr, flush=True)
         return 1
 
+    start_telemetry(config.gy25_device, config.gy25_baud, config.ms5611_bus,
+                    config.ms5611_addr, config.ms5611_enabled, config.telemetry_path)
     try:
         _startup(config)
     except KeyboardInterrupt:
@@ -222,6 +224,7 @@ def _read_sensor_payload(config: Config) -> dict[str, object]:
             config.ms5611_bus,
             config.ms5611_addr,
             config.ms5611_enabled,
+            telemetry_path=config.telemetry_path,
         )
     )
 

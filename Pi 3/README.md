@@ -169,3 +169,14 @@ Setup thêm mạng dự phòng (mặc định **SSID `Pdmq`**, ghi đè được
 ```sh
 /opt/homebrew/bin/python3.11 -m unittest discover -s tests
 ```
+
+## Telemetry cho Pi Control Android
+
+Đặt `PI_CONTROL_TELEMETRY_PATH=/root/pi/telemetry.json` trong `.env` (hoặc đường
+ dẫn tương ứng với thư mục ứng dụng). Khi bật tùy chọn này, app lấy mẫu cảm biến
+định kỳ khoảng 2 giây, ngoài những lần đọc để gửi lệnh. Các lần đọc dùng chung
+khóa để không mở UART/I²C đồng thời trong app. Nếu để trống, không chạy luồng nền.
+File JSON ghi atomically gồm `timestamp`, `devices` và `sensor_info` (tên driver,
+kết nối, enabled). Mất cảm biến trả null, không giữ số cũ làm mẫu mới. Thư mục
+cha phải tồn tại và có quyền ghi. Giao diện Android đọc file này mỗi 5 giây.
+Driver hiện có GY25 và GY63/MS5611; chưa có GY53.
