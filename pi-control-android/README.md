@@ -4,7 +4,7 @@ Bản Python chạy trong **Termux trên điện thoại Android**, giao diện 
 
 ## Chức năng
 
-- CPU, RAM, nhiệt độ, ổ đĩa, uptime; refresh mỗi 5 giây khi trang đang mở.
+- CPU, RAM, nhiệt độ, ổ đĩa, uptime; refresh nền mỗi 5 giây khi trang đang mở. Không khóa tab, nút cài đặt hoặc ô nhập khi đọc dữ liệu. Lệnh người dùng được xếp sau lần đọc đang chạy; chỉ các nút gửi lệnh tạm khóa trong lúc xử lý lệnh để tránh gửi trùng.
 - Danh sách systemd service, tìm kiếm, start/stop/restart, enable/disable và journal.
 - Thiết bị USB, ALSA, Bluetooth, mạng, I²C/UART/GPIO do hệ điều hành nhận diện.
 - Telemetry JSON của driver cảm biến, ghi rõ mẫu cũ/mất dữ liệu. Không lấy ảnh camera.

@@ -4,12 +4,37 @@ let connected=false, busy=false, demo=false, rows=[], lastSample=0;
 function page(id){document.querySelectorAll('.page').forEach(e=>e.hidden=e.id!==id);document.querySelectorAll('nav button').forEach(e=>e.classList.toggle('selected',e.dataset.page===id));window.scrollTo(0,0);}
 function showError(error){$('error').textContent=error.message||String(error);$('error').hidden=false;}
 function node(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}
-async function request(route,data={}){
-  if(busy)throw Error('Đang thực hiện thao tác khác');
-  busy=true;$('busyOverlay').hidden=false;
-  document.querySelectorAll('button').forEach(e=>e.disabled=true);
-  try{const response=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Pi-Control':'1'},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw Error(result.error||'Lỗi kết nối');$('error').hidden=true;return result;}
-  finally{busy=false;$('busyOverlay').hidden=true;document.querySelectorAll('button').forEach(e=>e.disabled=false);}
+let foregroundPending=false;
+let transport=Promise.resolve();
+const actionSelector='.actions button, #scan, #run, #record, #refresh, #connectForm button';
+function actionButtons(disabled){document.querySelectorAll(actionSelector).forEach(e=>e.disabled=disabled);}
+async function request(route,data={},options={}){
+  const background=options.background===true;
+  if(!background&&foregroundPending)throw Error('Đang xử lý lệnh trước, vui lòng đợi hoàn tất.');
+  if(!background){
+    foregroundPending=true;
+    actionButtons(true);
+    $('busyOverlay').textContent=busy?'Lệnh đã xếp hàng · vẫn có thể chuyển tab':'Đang xử lý lệnh · vẫn có thể chuyển tab';
+    $('busyOverlay').hidden=false;
+  }
+  const previous=transport;
+  const job=(async()=>{
+    await previous;
+    busy=true;
+    if(background)$('updated').textContent='Đang cập nhật…';
+    else $('busyOverlay').textContent='Đang xử lý lệnh · vẫn có thể chuyển tab';
+    try{
+      const response=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Pi-Control':'1'},body:JSON.stringify(data)});
+      const result=await response.json();
+      if(!response.ok)throw Error(result.error||'Lỗi kết nối');
+      $('error').hidden=true;
+      return result;
+    }finally{busy=false;}
+  })();
+  // Serialize SSH requests without disabling navigation or input fields.
+  transport=job.catch(()=>{});
+  try{return await job;}
+  finally{if(!background){foregroundPending=false;$('busyOverlay').hidden=true;actionButtons(false);}}
 }
 function render(data){
   lastSample=Date.now();$('host').textContent=data.hostname;$('dot').classList.add('online');$('status').textContent=demo?'DEMO · không có kết nối thật':'SSH đã phản hồi';
@@ -24,8 +49,8 @@ function render(data){
   function flatten(value,path){if(value!==null&&typeof value==='object'&&!Array.isArray(value)){for(const [key,item] of Object.entries(value))flatten(item,path?path+'.'+key:key);}else{const e=node('div','','sensor');e.append(node('span',path),node('b',value===null?'Chưa đọc được':String(value)));$('sensors').append(e);}}
   flatten(telemetry.data?.devices||{},'');
 }
-function renderServices(){const filter=$('search').value.toLowerCase();$('serviceList').replaceChildren();$('serviceCount').textContent=rows.length+' service';for(const row of rows){if(!row.join(' ').toLowerCase().includes(filter))continue;const [unit,state,sub,enabled,description]=row;const card=node('article','','service');const head=node('div','','row');head.append(node('h3',unit),node('span',state,'badge '+(state==='active'?'':state==='failed'?'failed':'inactive')));card.append(head,node('p',`${sub} · ${enabled}`),node('p',description));const actions=node('div','','actions');for(const [label,action] of [['Chạy','start'],['Dừng','stop'],['Restart','restart'],['Tự chạy','enable'],['Bỏ tự chạy','disable'],['Log','logs']]){const b=node('button',label,action==='stop'?'danger':'');b.addEventListener('click',()=>service(action,unit));actions.append(b);}card.append(actions);$('serviceList').append(card);}}
-async function refresh(){if(!connected||busy)return;try{render(await request('/api/snapshot'));}catch(e){$('dot').classList.remove('online');$('status').textContent='Không đọc được Pi · dữ liệu cũ';$('sensorStatus').textContent='Chưa xác nhận mẫu mới — xem lỗi phía trên';showError(e);}}
+function renderServices(){const filter=$('search').value.toLowerCase();$('serviceList').replaceChildren();$('serviceCount').textContent=rows.length+' service';for(const row of rows){if(!row.join(' ').toLowerCase().includes(filter))continue;const [unit,state,sub,enabled,description]=row;const card=node('article','','service');const head=node('div','','row');head.append(node('h3',unit),node('span',state,'badge '+(state==='active'?'':state==='failed'?'failed':'inactive')));card.append(head,node('p',`${sub} · ${enabled}`),node('p',description));const actions=node('div','','actions');for(const [label,action] of [['Chạy','start'],['Dừng','stop'],['Restart','restart'],['Tự chạy','enable'],['Bỏ tự chạy','disable'],['Log','logs']]){const b=node('button',label,action==='stop'?'danger':'');b.disabled=foregroundPending;b.addEventListener('click',()=>service(action,unit));actions.append(b);}card.append(actions);$('serviceList').append(card);}}
+async function refresh(){if(!connected||busy||foregroundPending)return;try{render(await request('/api/snapshot',{}, {background:true}));}catch(e){$('dot').classList.remove('online');$('status').textContent='Không đọc được Pi · dữ liệu cũ';$('sensorStatus').textContent='Chưa xác nhận mẫu mới — xem lỗi phía trên';showError(e);}}
 async function service(action,unit){if(action!=='logs'&&!confirm(`${demo?'DEMO — ':''}${action}: ${unit}?`))return;try{const result=await request('/api/service',{action,unit});$('output').textContent=result.message;if(action==='logs')page('commands');else await refresh();}catch(e){showError(e);}}
 $('settingsButton').onclick=()=>page('settings');document.querySelectorAll('nav button').forEach(e=>e.onclick=()=>page(e.dataset.page));$('search').oninput=renderServices;$('refresh').onclick=refresh;
 $('connectForm').onsubmit=async event=>{event.preventDefault();try{render(await request('/api/connect',Object.fromEntries(new FormData(event.target))));connected=true;page('overview');}catch(e){connected=false;$('dot').classList.remove('online');$('status').textContent='Kết nối thất bại';showError(e);}};
