@@ -88,7 +88,8 @@ class State:
                 raise ValueError('DEMO không truy cập file. Kết nối Pi để dùng.')
             script = (ROOT / 'remote_files.py').read_text()
             result = json.loads(self.client.execute(shlex.join(['python3', '-c', script]),
-                stdin=json.dumps(data, ensure_ascii=False).encode(), timeout=40))
+                stdin=json.dumps(data, ensure_ascii=False).encode(),
+                timeout=180 if data.get("action") == "upload" else 40))
             if 'error' in result:
                 raise ValueError(result['error'])
             return result
@@ -190,7 +191,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(403, {'error': 'Yêu cầu không được phép'})
         try:
             length = int(self.headers.get('Content-Length', '0'))
-            if not 0 <= length <= (4 * 1024 * 1024 if urlsplit(self.path).path == '/api/files' else 16384):
+            if not 0 <= length <= (24 * 1024 * 1024 if urlsplit(self.path).path == '/api/files' else 16384):
                 raise ValueError('Yêu cầu quá lớn')
             data = json.loads(self.rfile.read(length) or b'{}')
             if not isinstance(data, dict):

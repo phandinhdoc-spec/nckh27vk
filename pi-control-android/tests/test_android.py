@@ -103,6 +103,32 @@ class AndroidTests(unittest.TestCase):
             self.assertEqual(path.read_text(), content)
             self.assertEqual(Path(json.loads(body)['backup']).read_text(), 'old value')
 
+    def test_upload_binary_through_http_and_ssh_protocol(self):
+        import base64
+        import subprocess
+        import shlex
+        path = Path(self.temp.name) / 'uploaded.zip'
+        def execute(command, stdin=None, timeout=40):
+            return subprocess.run(shlex.split(command), input=stdin, capture_output=True,
+                                  timeout=timeout, check=True).stdout
+        with patch.object(self.web.state, 'demo', False), patch.object(self.web.state, 'client', server.SSH('pi', 'root')), patch.object(server.SSH, 'execute', side_effect=execute):
+            data = {'action': 'upload_check', 'path': str(path)}
+            self.assertEqual(self.request('POST', '/api/files', data, auth=False)[0], 403)
+            code, _, body = self.request('POST', '/api/files', data)
+            self.assertEqual(code, 200)
+            self.assertFalse(json.loads(body)['exists'])
+            raw = bytes(range(256)) * 13000  # base64 JSON exceeds previous 4 MiB body limit
+            data.update(action='upload', revision=None, base64=base64.b64encode(raw).decode())
+            code, _, body = self.request('POST', '/api/files', data)
+            self.assertEqual(code, 200, body)
+            self.assertEqual(path.read_bytes(), raw)
+            data['revision'] = json.loads(body)['revision']
+            data['base64'] = ''
+            code, _, body = self.request('POST', '/api/files', data)
+            self.assertEqual(code, 200, body)
+            self.assertEqual(path.read_bytes(), b'')
+            self.assertEqual(Path(json.loads(body)['backup']).read_bytes(), raw)
+
     def test_disconnect_removes_audio_and_connection(self):
         state = server.State(config_path=Path(self.temp.name)/'another.json')
         state.client = server.SSH('pi', 'root')

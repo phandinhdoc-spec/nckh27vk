@@ -147,10 +147,40 @@ thẳng `/root/pi/.env` và bấm Mở file. Symlink hiển thị dấu ↗; b�
 vào ô rồi chọn Mở file hoặc Xem thư mục. Khi mở, UI hiển thị đường dẫn đích thực.
 
 - Dùng quyền user SSH hiện tại; đăng nhập root thì đọc/ghi bằng root, không cần sudo.
-- Chỉ sửa file văn bản UTF-8 hiện có, tối đa 512 KiB. Không tạo/xóa file, không sửa file nhị phân hoặc device node.
+- Editor chỉ sửa file văn bản UTF-8 hiện có, tối đa 512 KiB. Mục Chuyển file hỗ trợ tạo mới hoặc ghi đè cả file nhị phân, tối đa 16 MiB. Không có nút xóa file hoặc sửa device node.
 - Lưu giữ owner, mode, extended attributes; tạo bản sao nội dung cũ `tên-file.pi-control-backup-*` quyền 0600 trước khi thay thế file.
 - Kiểm tra SHA-256 khi lưu; nếu có thay đổi từ tiến trình khác, báo xung đột thay vì cố ghi đè. Đây không phải khóa bắt buộc đối với các tiến trình bên ngoài.
 - Có cảnh báo khi bỏ phần chưa lưu; polling nền không ghi đè nội dung editor.
 - Service không tự restart khi lưu cấu hình. Chủ động restart qua tab Services nếu cần.
 - Muốn khôi phục, mở bản sao bằng UI, chép nội dung, mở lại file gốc rồi lưu.
 - Nội dung nhạy cảm như `.env` chỉ nên xem trên điện thoại của bạn; không cần gửi ảnh nội dung hay khóa API để được hỗ trợ.
+
+
+## Chuyển file từ Android lên Pi: tạo mới hoặc ghi đè
+
+Trong tab **File**, phần **Chuyển file từ điện thoại**:
+
+1. Chọn file bằng trình chọn file của Android.
+2. Nhập đường dẫn đầy đủ trên Pi, ví dụ `/root/pi/app.py`, hoặc thư mục kết thúc
+   bằng `/` để dùng tên file đã chọn. Thư mục cha phải tồn tại. Khi duyệt thư mục,
+   ô đích tự chuyển sang thư mục đó.
+3. Bấm **Tải lên Pi**. Giao diện kiểm tra đích và hỏi tạo mới hoặc ghi đè nếu trùng tên.
+4. Kết quả hiển thị đường dẫn, số byte và đường dẫn bản sao khi ghi đè.
+
+Hỗ trợ file bất kỳ (Python, .env, ZIP, ảnh, WAV, file rỗng…), tối đa **16 MiB/file**.
+File mới có quyền `0600`, thuộc user SSH (root khi đăng nhập root). Ghi đè giữ owner,
+mode và extended attributes của file gốc, giữ bản sao riêng tư `0600` cạnh file.
+Muốn chạy trực tiếp script mới, cần tự cấp quyền thực thi; `python3 file.py` không
+cần bit executable. Không tự giải nén, thực thi file hoặc restart service.
+
+Nội dung được truyền qua SSH dưới dạng base64, giữ nguyên byte. File đích chỉ được
+thay sau khi nhận đủ nội dung. Nếu đích đổi từ lúc xác nhận, thao tác bị từ chối;
+file mới dùng tạo-if-absent nguyên tử để không ghi đè file xuất hiện đồng thời.
+Không ghi đè symlink, hard link, thư mục hoặc file đặc biệt. Chọn đường dẫn đích
+thực nếu gặp symlink. Kiểm tra xung đột không phải khóa bắt buộc đối với tiến trình
+khác trên Pi. File cũ lớn hơn 16 MiB không được ghi đè qua chức năng này.
+
+Trong lúc tải, giữ Termux hoạt động. Nếu mất kết nối đúng lúc hoàn tất, trạng thái
+có thể chưa xác nhận dù file đã được ghi; kiểm tra thư mục trên Pi trước khi tải lại.
+Nội dung đang chỉnh trong editor được giữ, không tự thay bằng file vừa upload.
+Chỉ cần cập nhật bản Android; Pi không cần cài thêm agent hay gói phần mềm.

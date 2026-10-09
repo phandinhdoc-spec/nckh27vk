@@ -87,7 +87,7 @@ function abandonEdit(){return !fileDirty||confirm('Bạn có thay đổi chưa l
 function clearEditor(){openedFile=null;fileDirty=false;$('fileEditor').value='';$('fileEditorPanel').hidden=true;}
 async function browseFiles(path){
   if(!abandonEdit())return;
-  try{const data=await request('/api/files',{action:'list',path});clearEditor();$('filePath').value=data.path;folderParent=data.parent;$('fileList').replaceChildren();
+  try{const data=await request('/api/files',{action:'list',path});clearEditor();$('filePath').value=data.path;folderParent=data.parent;$('uploadTarget').value=data.path.replace(/\/$/,'')+'/';$('fileList').replaceChildren();
     if(!data.entries.length)$('fileList').append(node('p','Thư mục trống'));
     for(const entry of data.entries){const button=node('button',(entry.kind==='directory'?'▸ ':entry.kind==='link'?'↗ ':'')+entry.name,'fileEntry');button.disabled=['special','unavailable'].includes(entry.kind);button.onclick=()=>{if(entry.kind==='directory')browseFiles(entry.path);else if(entry.kind==='link'){$('filePath').value=entry.path;}else openFile(entry.path);};$('fileList').append(button);}
   }catch(e){showError(e);}
@@ -112,3 +112,43 @@ $('saveFile').onclick=async()=>{
   }catch(e){showError(e);}
 };
 window.addEventListener('beforeunload',e=>{if(fileDirty){e.preventDefault();e.returnValue='';}});
+
+let uploadPending=false;
+function readUpload(file){return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onload=()=>resolve(String(reader.result).split(',')[1]);
+  reader.onerror=()=>reject(Error('Không đọc được file đã chọn trên điện thoại'));
+  reader.onabort=()=>reject(Error('Đã hủy đọc file'));
+  reader.readAsDataURL(file);
+});}
+$('uploadSource').onchange=()=>{
+  const file=$('uploadSource').files[0];
+  if(file){const path=$('uploadTarget').value;const slash=path.lastIndexOf('/');$('uploadTarget').value=path.slice(0,slash+1)+file.name;$('uploadStatus').textContent=`${file.name} · ${file.size} byte`;}
+};
+$('uploadFile').onclick=async()=>{
+  if(uploadPending||foregroundPending)return;
+  const file=$('uploadSource').files[0];
+  if(!file){showError(Error('Chọn file trên điện thoại trước'));return;}
+  if(file.size>16*1024*1024){showError(Error('File vượt giới hạn 16 MiB'));return;}
+  let target=$('uploadTarget').value;
+  if(target.endsWith('/'))target+=file.name;
+  if(!target.startsWith('/')&&!target.startsWith('~/')){showError(Error('Nhập đường dẫn đầy đủ trên Pi, ví dụ /root/pi/app.py'));return;}
+  if(fileDirty&&!confirm('Có file đang sửa chưa lưu. Tiếp tục tải lên? Phần đang sửa vẫn được giữ trong editor.'))return;
+  uploadPending=true;
+  // Keep the selected Pi stable while a file is read and its destination checked.
+  $('connectForm').inert=true;
+  try{
+    $('uploadStatus').textContent='Đang đọc file trên điện thoại…';
+    const content=await readUpload(file);
+    $('uploadStatus').textContent='Đang kiểm tra file đích…';
+    const checked=await request('/api/files',{action:'upload_check',path:target});
+    const prompt=checked.exists?`File đã tồn tại (${checked.bytes} byte). Ghi đè ${checked.path}? Bản sao file cũ sẽ được giữ.`:`Tạo file mới ${checked.path} (${file.size} byte)?`;
+    if(!confirm(prompt)){$('uploadStatus').textContent='Đã hủy, chưa thay đổi file trên Pi';return;}
+    $('uploadStatus').textContent='Đang chuyển file qua SSH…';
+    const result=await request('/api/files',{action:'upload',path:checked.path,revision:checked.revision,base64:content});
+    $('uploadTarget').value=result.path;
+    $('uploadStatus').textContent=`${result.message}: ${result.path} · ${result.bytes} byte`+(result.backup?' · Bản sao: '+result.backup:'');
+    if(openedFile?.path===result.path)$('fileSaveStatus').textContent='File này vừa được tải lên. Mở lại bản trên Pi trước khi sửa tiếp; nội dung editor hiện tại vẫn được giữ.';
+  }catch(e){$('uploadStatus').textContent='Chưa xác nhận tải lên thành công. '+e.message;showError(e);}
+  finally{uploadPending=false;$('connectForm').inert=false;}
+};
