@@ -83,6 +83,18 @@ class State:
             return self.snapshot()
         if not self.demo and self.client is None:
             raise ValueError('Chưa kết nối Pi')
+        if route == '/api/wifi':
+            if self.demo:
+                if data.get('action') == 'status':
+                    return {'networks': [], 'capacity': 5, 'country': 'VN',
+                            'revision': None, 'message': 'DEMO — chưa đọc WiFi thật'}
+                raise ValueError('DEMO không thay đổi WiFi. Kết nối Pi để dùng.')
+            script = (ROOT / 'remote_wifi.py').read_text()
+            result = json.loads(self.client.execute(shlex.join(['python3', '-c', script]),
+                stdin=json.dumps(data, ensure_ascii=False).encode(), timeout=45))
+            if 'error' in result:
+                raise ValueError(result['error'])
+            return result
         if route == '/api/files':
             if self.demo:
                 raise ValueError('DEMO không truy cập file. Kết nối Pi để dùng.')

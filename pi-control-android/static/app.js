@@ -53,8 +53,8 @@ function renderServices(){const filter=$('search').value.toLowerCase();$('servic
 async function refresh(){if(!connected||busy||foregroundPending)return;try{render(await request('/api/snapshot',{}, {background:true}));}catch(e){$('dot').classList.remove('online');$('status').textContent='Không đọc được Pi · dữ liệu cũ';$('sensorStatus').textContent='Chưa xác nhận mẫu mới — xem lỗi phía trên';showError(e);}}
 async function service(action,unit){if(action!=='logs'&&!confirm(`${demo?'DEMO — ':''}${action}: ${unit}?`))return;try{const result=await request('/api/service',{action,unit});$('output').textContent=result.message;if(action==='logs')page('commands');else await refresh();}catch(e){showError(e);}}
 $('settingsButton').onclick=()=>page('settings');document.querySelectorAll('nav button').forEach(e=>e.onclick=()=>page(e.dataset.page));$('search').oninput=renderServices;$('refresh').onclick=refresh;
-$('connectForm').onsubmit=async event=>{event.preventDefault();if(!abandonEdit())return;try{clearEditor();$('fileList').textContent='Chọn thư mục để đọc từ Pi.';render(await request('/api/connect',Object.fromEntries(new FormData(event.target))));connected=true;page('overview');}catch(e){connected=false;$('dot').classList.remove('online');$('status').textContent='Kết nối thất bại';showError(e);}};
-$('disconnect').onclick=async()=>{if(!abandonEdit())return;try{clearEditor();$('fileList').textContent='Đã ngắt kết nối';await request('/api/disconnect');connected=false;$('dot').classList.remove('online');$('status').textContent='Đã ngắt · dữ liệu cũ';$('sensorStatus').textContent='Đã ngắt kết nối — mẫu từ lần đọc trước';$('recordResult').hidden=true;$('player').pause();$('player').removeAttribute('src');}catch(e){showError(e);}};
+$('connectForm').onsubmit=async event=>{event.preventDefault();if(!abandonEdit())return;try{clearWifi();clearEditor();$('fileList').textContent='Chọn thư mục để đọc từ Pi.';render(await request('/api/connect',Object.fromEntries(new FormData(event.target))));connected=true;page('overview');}catch(e){connected=false;$('dot').classList.remove('online');$('status').textContent='Kết nối thất bại';showError(e);}};
+$('disconnect').onclick=async()=>{if(!abandonEdit())return;try{clearWifi();clearEditor();$('fileList').textContent='Đã ngắt kết nối';await request('/api/disconnect');connected=false;$('dot').classList.remove('online');$('status').textContent='Đã ngắt · dữ liệu cũ';$('sensorStatus').textContent='Đã ngắt kết nối — mẫu từ lần đọc trước';$('recordResult').hidden=true;$('player').pause();$('player').removeAttribute('src');}catch(e){showError(e);}};
 $('scan').onclick=async()=>{try{const data=await request('/api/devices');$('deviceList').replaceChildren();for(const [name,value] of Object.entries(data)){$('deviceList').append(node('h3',name+(value.ok?'':' · không đọc được')),node('pre',value.text||'(không có dữ liệu)'));}}catch(e){showError(e);}};
 $('run').onclick=async()=>{const command=$('command').value;if(!confirm('Chạy trên Pi với quyền SSH:\n'+command))return;try{const data=await request('/api/command',{command});$('output').textContent=data.message;}catch(e){$('output').textContent=e.message;showError(e);}};
 $('record').onclick=async()=>{const seconds=Number($('seconds').value);if(!Number.isInteger(seconds)||seconds<1||seconds>120){showError(Error('Chọn thời lượng từ 1 đến 120 giây'));return;}if(!confirm(`Thu âm ${seconds} giây từ mic Pi?`))return;$('recordResult').hidden=true;$('player').pause();$('recordStatus').textContent=`Đang thu ${seconds} giây… giữ Termux hoạt động.`;try{const data=await request('/api/record',{device:$('audioDevice').value,seconds,rate:Number($('rate').value)});const url=data.url+'?t='+Date.now();$('player').src=url;$('download').href=url;$('recordResult').hidden=false;$('recordStatus').textContent='Thu xong. Bạn có thể nghe hoặc tải WAV.';}catch(e){$('recordStatus').textContent='Thu âm thất bại';showError(e);}};
@@ -151,4 +151,34 @@ $('uploadFile').onclick=async()=>{
     if(openedFile?.path===result.path)$('fileSaveStatus').textContent='File này vừa được tải lên. Mở lại bản trên Pi trước khi sửa tiếp; nội dung editor hiện tại vẫn được giữ.';
   }catch(e){$('uploadStatus').textContent='Chưa xác nhận tải lên thành công. '+e.message;showError(e);}
   finally{uploadPending=false;$('connectForm').inert=false;}
+};
+
+let wifiRevision=null;
+function clearWifi(){wifiRevision=null;$('wifiPassword').value='';$('wifiSsid').value='';$('wifiReplace').checked=false;$('wifiNetworks').replaceChildren();$('wifiSummary').textContent='Chưa đọc cấu hình WiFi trên Pi.';$('wifiResult').hidden=true;}
+function renderWifi(data){
+  wifiRevision=data.revision;
+  $('wifiSummary').textContent=`${data.networks.length}/${data.capacity} mạng đã lưu · Quốc gia ${data.country}`+(demo?' · DEMO':'');
+  $('wifiNetworks').replaceChildren();
+  for(const entry of data.networks){const row=node('div','','row');row.append(node('strong',entry.ssid),node('span',`Vị trí ${entry.slot} · ${entry.security}`));$('wifiNetworks').append(row);}
+  if(!data.networks.length)$('wifiNetworks').append(node('p','Chưa có mạng đã lưu.'));
+}
+$('wifiRead').onclick=async()=>{try{renderWifi(await request('/api/wifi',{action:'status'}));}catch(e){wifiRevision=null;showError(e);}};
+$('wifiSecurity').onchange=()=>{$('wifiPasswordLabel').hidden=$('wifiSecurity').value==='NONE';if($('wifiSecurity').value==='NONE')$('wifiPassword').value='';};
+$('wifiForm').onsubmit=async event=>{
+  event.preventDefault();
+  if(!wifiRevision){showError(Error('Bấm Đọc mạng đã lưu trước khi thêm hoặc cập nhật WiFi.'));return;}
+  const ssid=$('wifiSsid').value,security=$('wifiSecurity').value;
+  if(!confirm(`Lưu mạng “${ssid}” vào Pi? Các mạng khác được giữ; chưa chuyển kết nối ngay.`))return;
+  try{
+    const data=await request('/api/wifi',{action:'save',ssid,security,password:$('wifiPassword').value,replace:$('wifiReplace').checked,revision:wifiRevision});
+    renderWifi(data);$('wifiPassword').value='';$('wifiResult').hidden=false;
+    $('wifiResult').textContent=data.message+' · '+data.saved_ssid+'. '+data.note+' Bản sao: '+data.backup;
+  }catch(e){showError(e);}
+};
+$('wifiReload').onclick=async()=>{
+  if(!wifiRevision){showError(Error('Đọc mạng đã lưu trước khi áp dụng.'));return;}
+  if(!confirm('Nạp lại danh sách WiFi sau 3 giây? Pi có thể đổi mạng và mất SSH/Tailscale tạm thời.'))return;
+  $('wifiResult').hidden=false;
+  try{const data=await request('/api/wifi',{action:'reload',revision:wifiRevision,confirm:true});$('wifiResult').textContent=data.message;}
+  catch(e){$('wifiResult').textContent='Chưa xác nhận được thao tác. Nếu Pi đổi mạng, đợi Tailscale kết nối lại rồi Làm mới.';showError(e);}
 };

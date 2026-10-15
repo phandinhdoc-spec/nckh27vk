@@ -129,6 +129,19 @@ class AndroidTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(), b'')
             self.assertEqual(Path(json.loads(body)['backup']).read_bytes(), raw)
 
+    def test_wifi_auth_demo_and_secret_transport(self):
+        self.assertEqual(self.request('POST', '/api/wifi', {'action': 'status'}, auth=False)[0], 403)
+        self.assertEqual(self.request('POST', '/api/wifi', {'action': 'status'})[0], 200)
+        self.assertEqual(self.request('POST', '/api/wifi', {'action': 'save'})[0], 400)
+        state = server.State(config_path=Path(self.temp.name)/'wifi-config.json')
+        state.client = server.SSH('pi', 'root')
+        data = {'action': 'save', 'ssid': 'Test AP', 'password': 'secret-pass', 'revision': 'abc'}
+        with patch.object(server.SSH, 'execute', return_value=b'{"message":"saved"}') as execute:
+            state.dispatch('/api/wifi', data)
+        self.assertNotIn('secret-pass', execute.call_args.args[0])
+        self.assertEqual(json.loads(execute.call_args.kwargs['stdin']), data)
+        self.assertFalse(state.config_path.exists())
+
     def test_disconnect_removes_audio_and_connection(self):
         state = server.State(config_path=Path(self.temp.name)/'another.json')
         state.client = server.SSH('pi', 'root')

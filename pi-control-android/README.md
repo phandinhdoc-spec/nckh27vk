@@ -184,3 +184,54 @@ Trong lúc tải, giữ Termux hoạt động. Nếu mất kết nối đúng l�
 có thể chưa xác nhận dù file đã được ghi; kiểm tra thư mục trên Pi trước khi tải lại.
 Nội dung đang chỉnh trong editor được giữ, không tự thay bằng file vừa upload.
 Chỉ cần cập nhật bản Android; Pi không cần cài thêm agent hay gói phần mềm.
+
+## Thêm WiFi cho Pi Zero 2 W chạy DietPi
+
+Tab **WiFi** dùng cơ sở dữ liệu của DietPi, tương thích màn hình WiFi trong
+`dietpi-config`. Không dùng NetworkManager/nmcli và không cài thêm dịch vụ mạng.
+
+1. Kết nối SSH root tới Pi rồi mở **WiFi → Đọc mạng đã lưu**.
+2. Nhập đúng SSID, chọn WPA/WPA2 cá nhân hoặc mạng mở và nhập mật khẩu.
+3. Bấm **Lưu WiFi vào Pi**. Mạng được thêm vào vị trí trống, giữ các mạng cũ.
+   Nếu muốn đổi mật khẩu cho SSID đã có, chọn **Cập nhật nếu tên mạng đã lưu**.
+4. Để nạp danh sách vào kết nối đang chạy, bấm **Áp dụng danh sách đã lưu** và
+   xác nhận. Công cụ hẹn `wpa_cli -i wlan0 reconfigure` sau 3 giây, không restart
+   toàn bộ networking hay Tailscale. SSH có thể mất tạm thời. Pi tự chọn mạng
+   khả dụng; nút này không ép chuyển sang SSID vừa thêm.
+
+Chỉ bấm Lưu cũng giữ cấu hình qua reboot. Danh sách mới được dùng khi nạp lại
+wpa_supplicant hoặc khởi động lại Pi. Không cần reboot chỉ để lưu/thêm mạng.
+Mật khẩu chỉ được xác nhận đúng khi Pi kết nối thành công; báo “đã lưu” không
+khẳng định AP có sóng, mật khẩu đúng hay có Internet. Pi Zero 2 W dùng WiFi 2.4 GHz.
+
+### Cách tích hợp DietPi
+
+- Đọc `/var/lib/dietpi/dietpi-wifi.db` bằng parser dữ liệu, không source/eval file đầu vào.
+- Ghi lại DB native rồi gọi `/boot/dietpi/func/dietpi-wifidb 1` để DietPi tạo
+  `/etc/wpa_supplicant/wpa_supplicant.conf`. Đây là cùng cơ chế mà dietpi-config sử dụng.
+- Theo định dạng DietPi hiện đã kiểm tra, tối đa **5 vị trí**. Khi đầy, báo lỗi;
+  không tự xóa mạng. Muốn bỏ mạng cũ, dùng dietpi-config.
+- Tạo bản sao cả DB và wpa_supplicant.conf trong
+  `/var/lib/dietpi/pi-control-wifi-backup-*` (thư mục 0700, file 0600).
+  Nếu tạo hoặc kiểm tra cấu hình thất bại, khôi phục hai file cũ trước khi báo lỗi.
+- PSK được tính bằng PBKDF2 trước khi ghi DB, không lưu mật khẩu WPA dạng rõ trong
+  DB mới và không đưa mật khẩu vào dòng lệnh/log/cấu hình điện thoại. PSK vẫn là
+  bí mật xác thực; bản sao cũ cũng chứa thông tin xác thực nên chỉ root được đọc.
+- Kiểm tra phiên bản DB và cấu hình hiện có trước khi sửa. Nếu có tùy chỉnh ngoài
+  định dạng WPA-PSK/NONE, EAP, WEP, file WiFi first-boot chưa xử lý hoặc DB/config
+  không khớp, dừng và báo. Không tự ghi đè cấu hình tùy chỉnh.
+- Bản này hỗ trợ SSID dài 1–32 byte UTF-8, không chứa nháy kép, backslash hoặc ký
+  tự điều khiển do cách generator DietPi tạo wpa config. WPA passphrase cần 8–63
+  ký tự ASCII in được, hoặc PSK 64 ký tự hex. Không tự trim SSID/mật khẩu.
+- Chưa hỗ trợ WPA3-only, EAP doanh nghiệp, đăng nhập captive portal, quét SSID,
+  đổi quốc gia hoặc cấu hình WiFi từ đầu khi DietPi chưa bật wlan0.
+- Tránh chạy dietpi-config/chỉnh file mạng đồng thời. Có khóa giữa các yêu cầu
+  Pi Control và kiểm tra revision, nhưng dietpi-config không dùng khóa này.
+
+Không cần chép module mới lên Pi: mỗi thao tác gửi helper Python qua SSH.
+Chỉ cập nhật bản Termux bằng installer như các tính năng khác.
+
+Nguồn đối chiếu: [DietPi dietpi-wifidb](https://github.com/MichaIng/DietPi/blob/master/dietpi/func/dietpi-wifidb).
+Đã kiểm thử thêm/cập nhật/mạng mở, giữ mạng cũ, đầy slot, xung đột, rollback,
+SSID có ký tự shell và luồng HTTP/UI. Đã chạy generator DietPi chính thức trong
+filesystem tạm với globals giả lập; chưa thử trên Pi thật.

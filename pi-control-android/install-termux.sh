@@ -10,11 +10,11 @@ mkdir -p "$HOME/pi-control-android-releases"
 staging=$(mktemp -d "$HOME/pi-control-android-releases/release.XXXXXX")
 complete=0
 trap 'if [[ $complete -eq 0 ]]; then rm -rf -- "$staging"; fi' EXIT
-for path in pi-control/core.py pi-control/remote_probe.py pi-control-android/server.py pi-control-android/remote_files.py pi-control-android/static/index.html pi-control-android/static/style.css pi-control-android/static/app.js pi-control-android/README.md; do
+for path in pi-control/core.py pi-control/remote_probe.py pi-control-android/server.py pi-control-android/remote_files.py pi-control-android/remote_wifi.py pi-control-android/static/index.html pi-control-android/static/style.css pi-control-android/static/app.js pi-control-android/README.md; do
     mkdir -p "$staging/$(dirname "$path")"
     curl --fail --location --retry 2 "$base/$path" -o "$staging/$path"
 done
-python -m py_compile "$staging/pi-control/core.py" "$staging/pi-control/remote_probe.py" "$staging/pi-control-android/server.py"
+python -m py_compile "$staging/pi-control/core.py" "$staging/pi-control/remote_probe.py" "$staging/pi-control-android/server.py" "$staging/pi-control-android/remote_wifi.py"
 launcher="$HOME/pi-control-android-start.sh"
 printf '#!/data/data/com.termux/files/usr/bin/bash\nexec python %q "$@"\n' "$staging/pi-control-android/server.py" > "$staging/start.sh"
 chmod 700 "$staging/start.sh"

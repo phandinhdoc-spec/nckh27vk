@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const source=fs.readFileSync(require('node:path').join(__dirname,'../static/app.js'),'utf8').split('let uploadPending=false;')[1];
+const source=fs.readFileSync(require('node:path').join(__dirname,'../static/app.js'),'utf8').split('let uploadPending=false;')[1].split('let wifiRevision=null;')[0];
 const elements={uploadFile:{},uploadSource:{files:[{name:'a.bin',size:3}]},uploadTarget:{value:'/root/pi/'},uploadStatus:{},connectForm:{inert:false}};
 let calls=[],exists=false,confirmed=true;
 const context={$:id=>elements[id],foregroundPending:false,fileDirty:false,openedFile:null,

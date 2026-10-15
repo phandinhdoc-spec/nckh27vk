@@ -1,0 +1,20 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const code=fs.readFileSync(require('node:path').join(__dirname,'../static/app.js'),'utf8').split('let wifiRevision=null;')[1];
+const elements={};
+for(const id of ['wifiPassword','wifiSsid','wifiReplace','wifiNetworks','wifiSummary','wifiResult','wifiRead','wifiSecurity','wifiPasswordLabel','wifiForm','wifiReload'])elements[id]={value:'',replaceChildren(){},append(){}};
+elements.wifiSsid.value='Home';elements.wifiPassword.value='test-password';elements.wifiSecurity.value='WPA-PSK';
+const calls=[];let confirmResult=true;
+const snapshot={networks:[{ssid:'Home',slot:1,security:'WPA-PSK'}],capacity:5,country:'VN',revision:'new',message:'Saved',saved_ssid:'Home',note:'Not reloaded',backup:'/backup'};
+const context={$:id=>elements[id],demo:false,node:()=>({append(){}}),confirm:()=>confirmResult,showError:e=>{throw e;},request:async(route,data)=>{calls.push({route,data});return snapshot;}};
+vm.createContext(context);vm.runInContext('let wifiRevision=null;'+code,context);
+(async()=>{
+ await elements.wifiRead.onclick();assert.equal(calls[0].data.action,'status');
+ await elements.wifiForm.onsubmit({preventDefault(){}});
+ assert.deepEqual(calls.map(c=>c.data.action),['status','save']);
+ assert.equal(calls[1].data.password,'test-password');assert.equal(elements.wifiPassword.value,'');
+ confirmResult=false;await elements.wifiReload.onclick();assert.equal(calls.length,2);
+ confirmResult=true;await elements.wifiReload.onclick();assert.equal(calls[2].data.action,'reload');assert.equal(calls[2].data.confirm,true);
+ elements.wifiSecurity.value='NONE';elements.wifiPassword.value='unused';elements.wifiSecurity.onchange();assert.equal(elements.wifiPassword.value,'');
+ vm.runInContext('clearWifi()',context);assert.equal(vm.runInContext('wifiRevision',context),null);
+ console.log('PASS: WiFi read, save without reload, password clearing, separate confirmed reload, connection reset');
+})().catch(e=>{console.error(e);process.exitCode=1;});
