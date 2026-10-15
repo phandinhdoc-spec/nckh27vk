@@ -44,6 +44,7 @@ def _config(**overrides: object) -> SimpleNamespace:
         ms5611_bus=1,
         ms5611_addr=0x76,
         ms5611_enabled=False,
+        telemetry_path="",
     )
     values.update(overrides)
     return SimpleNamespace(**values)
@@ -273,7 +274,7 @@ class SensorPayloadTests(unittest.TestCase):
         with patch.object(app, "read_sensors", return_value=payload) as read:
             result = app._read_sensor_payload(config)
 
-        read.assert_called_once_with("/dev/serial0", 115200, 1, 0x76, True)
+        read.assert_called_once_with("/dev/serial0", 115200, 1, 0x76, True, telemetry_path="")
         self.assertEqual(result, payload)
 
 

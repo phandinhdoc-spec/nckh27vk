@@ -218,5 +218,34 @@ class SensorPayloadTests(unittest.TestCase):
         self.assertEqual(payload, {"imu": None, "pressure": None})
 
 
+
+class TelemetryTests(unittest.TestCase):
+    def test_snapshot_names_and_results(self):
+        import tempfile
+        import json
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'sample.json'
+            with patch.object(sensors, 'read_gy25', return_value={'yaw': 12.3}), patch.object(sensors, 'read_ms5611', return_value=None):
+                sensors.read_sensors('/dev/serial0', 115200, 1, 0x76, False, str(target))
+            result = json.loads(target.read_text())
+            self.assertEqual(result['devices']['imu']['yaw'], 12.3)
+            self.assertEqual(result['sensor_info']['imu']['name'], 'GY25')
+            self.assertFalse(result['sensor_info']['pressure']['enabled'])
+            self.assertIsNone(result['devices']['pressure'])
+
+    def test_sampler_opt_in_and_stoppable(self):
+        import threading
+        with patch.object(sensors, 'read_sensors') as read:
+            sensors.start_telemetry('', 115200, 1, 0x76, False, '')
+            read.assert_not_called()
+        seen = threading.Event()
+        with patch.object(sensors, 'read_sensors', side_effect=lambda *args: seen.set()):
+            stop = sensors.start_telemetry('', 115200, 1, 0x76, False, '/tmp/test')
+            try:
+                self.assertTrue(seen.wait(2))
+            finally:
+                stop.set()
+
 if __name__ == "__main__":
     unittest.main()
