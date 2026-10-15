@@ -37,6 +37,7 @@ class Config:
     ms5611_bus: int
     ms5611_addr: int
     ms5611_enabled: bool
+    telemetry_path: str = ""
 
     @property
     def bluetooth_playback_device(self) -> str:
@@ -86,6 +87,7 @@ class Config:
             ms5611_bus=_integer(values, "MS5611_BUS", 1, minimum=0),
             ms5611_addr=_hex(values, "MS5611_ADDR", 0x76),
             ms5611_enabled=_bool(values, "MS5611_ENABLED", False),
+            telemetry_path=values.get("PI_CONTROL_TELEMETRY_PATH", "").strip(),
         )
 
 

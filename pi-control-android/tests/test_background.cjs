@@ -1,0 +1,43 @@
+// Test the real request scheduler with delayed HTTP promises and lightweight DOM stubs.
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const path=require('node:path');
+const source=fs.readFileSync(path.join(__dirname,'../static/app.js'),'utf8').split('function render(data)')[0];
+const elements={busyOverlay:{hidden:true},updated:{},error:{hidden:true}};
+const action={disabled:false},navigation={disabled:false},input={disabled:false};
+const pending=[];
+const context={document:{getElementById:id=>elements[id],querySelectorAll:selector=>{
+  if(selector==='button')throw Error('Global button lock must not return');
+  return [action];
+}},fetch:route=>new Promise((resolve,reject)=>pending.push({route,resolve,reject})),console};
+vm.createContext(context);
+vm.runInContext(source+'\nglobalThis.request=request;',context);
+const flush=()=>new Promise(resolve=>setImmediate(resolve));
+const finish=entry=>entry.resolve({ok:true,json:async()=>({ok:true})});
+(async()=>{
+ const poll=context.request('/api/snapshot',{}, {background:true});
+ await flush();
+ assert.equal(elements.busyOverlay.hidden,true);
+ assert.equal(action.disabled,false);
+ assert.equal(navigation.disabled,false);
+ assert.equal(input.disabled,false);
+ const command=context.request('/api/command',{command:'uptime'});
+ await flush();
+ assert.equal(pending.length,1,'Command waits for polling, rather than failing busy');
+ assert.equal(action.disabled,true);
+ assert.equal(navigation.disabled,false);
+ assert.equal(input.disabled,false);
+ await assert.rejects(context.request('/api/command',{}),/lệnh trước/);
+ finish(pending[0]);await poll;await flush();
+ assert.equal(pending[1].route,'/api/command');
+ finish(pending[1]);await command;
+ assert.equal(action.disabled,false);
+ assert.equal(elements.busyOverlay.hidden,true);
+ const failure=context.request('/api/snapshot',{}, {background:true});
+ const handled=assert.rejects(failure,/offline/);
+ await flush();pending[2].reject(Error('offline'));await handled;
+ const recovery=context.request('/api/command',{});await flush();finish(pending[3]);await recovery;
+ assert.equal(action.disabled,false);
+ console.log('PASS: background poll, usable navigation/input, queued command, duplicate prevention, error recovery');
+})().catch(error=>{console.error(error);process.exitCode=1});
