@@ -55,10 +55,13 @@ TÚI BÓNG: nếu vật nằm trong túi bóng (túi nilon, trong suốt hoặc 
 loại theo vật bên trong túi và không nhắc đến túi. Túi bóng rỗng, hoặc túi mà không \
 nhìn ra vật bên trong, là rác vô cơ (VO_CO).
 
-VẬT SẮC NHỌN (SAC_NHON): mọi vật bằng thủy tinh (chai, lọ, ly, cốc, mảnh vỡ, dù còn \
-nguyên vẹn), dao, kéo, dao cạo, kim, đinh, ghim, mảnh gốm sứ vỡ, lon hoặc hộp kim loại \
-bị cắt rách có cạnh sắc. Chai nhựa và lon nguyên vẹn không phải vật sắc nhọn. Nếu có \
-vật sắc nhọn, thêm mã SAC_NHON và vẫn phân loại như bình thường (thủy tinh là VO_CO).
+VẬT SẮC NHỌN (SAC_NHON): xác định theo HÌNH DẠNG và TÌNH TRẠNG nhìn thấy trong ảnh, \
+không theo chất liệu. Chỉ gắn SAC_NHON khi vật có lưỡi hoặc cạnh bén (dao, kéo, dao \
+cạo, lưỡi dao), đầu nhọn (kim, đinh, ghim, tăm, que nhọn), hoặc mảnh vỡ, gãy, rách có \
+cạnh góc sắc (mảnh thủy tinh, mảnh gốm sứ, mảnh nhựa vỡ, lon hộp bị cắt rách). Vật \
+nguyên vẹn, bề mặt tròn hoặc nhẵn, dù làm bằng thủy tinh hay kim loại (chai, lọ, ly, \
+lon nguyên), thì KHÔNG phải vật sắc nhọn. Nếu có vật sắc nhọn, thêm mã SAC_NHON và \
+vẫn phân loại như bình thường.
 
 CÁCH TRẢ LỜI: chỉ ghi đúng MỘT dòng gồm các mã, cách nhau bằng dấu cách, không giải \
 thích, không thêm chữ nào khác.

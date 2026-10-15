@@ -61,7 +61,7 @@ class PromptTests(unittest.TestCase):
 
     def test_mentions_required_rules(self) -> None:
         prompt = classifier.PROMPT
-        for needle in ("túi bóng", "thủy tinh", "VO_CO", "HUU_CO", "KHAC", "SAC_NHON", "KHONG_THAY"):
+        for needle in ("túi bóng", "HÌNH DẠNG", "VO_CO", "HUU_CO", "KHAC", "SAC_NHON", "KHONG_THAY"):
             self.assertIn(needle, prompt)
 
     def test_does_not_trigger_server_route_guidance_filter(self) -> None:
