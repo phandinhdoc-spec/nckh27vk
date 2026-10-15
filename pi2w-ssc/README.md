@@ -6,7 +6,7 @@ Không dùng AI cục bộ, không mic, không Groq, không Bluetooth, không c�
 ## Thông báo (chỉ hai loại)
 
 1. **Hệ thống:** Wi-Fi đã kết nối, camera sẵn sàng, hệ thống sẵn sàng (`system-ready`), đang phân tích, lỗi thao tác, và "Chưa thấy vật. Hãy đưa vật vào trước camera."
-2. **Kết quả:** "Rác vô cơ." / "Rác hữu cơ." / "Rác khác." Nếu là vật sắc nhọn thì đọc trước: "Cảnh báo, đây là vật sắc nhọn." rồi đến tên nhóm.
+2. **Kết quả:** "Rác vô cơ." / "Rác hữu cơ." / "Rác khác." Nếu là vật sắc nhọn (mọi vật thủy tinh, dao, kéo, kim, mảnh sứ vỡ…) thì đọc trước: "Cảnh báo, đây là vật sắc nhọn." rồi đến tên nhóm.
 
 ## Cách hoạt động
 
