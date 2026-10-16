@@ -7,7 +7,7 @@ const source=fs.readFileSync(path.join(__dirname,'../static/app.js'),'utf8').spl
 const elements={busyOverlay:{hidden:true},updated:{},error:{hidden:true}};
 const action={disabled:false},navigation={disabled:false},input={disabled:false};
 const pending=[];
-const context={document:{getElementById:id=>elements[id],querySelectorAll:selector=>{
+const context={AbortController,setTimeout,clearTimeout,document:{getElementById:id=>elements[id],querySelectorAll:selector=>{
   if(selector==='button')throw Error('Global button lock must not return');
   return [action];
 }},fetch:route=>new Promise((resolve,reject)=>pending.push({route,resolve,reject})),console};

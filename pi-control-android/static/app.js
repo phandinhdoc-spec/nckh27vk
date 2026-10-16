@@ -24,11 +24,15 @@ async function request(route,data={},options={}){
     if(background)$('updated').textContent='Đang cập nhật…';
     else $('busyOverlay').textContent='Đang xử lý lệnh · vẫn có thể chuyển tab';
     try{
-      const response=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Pi-Control':'1'},body:JSON.stringify(data)});
+      const controller=new AbortController();
+      const timer=setTimeout(()=>controller.abort(),route==='/api/snapshot'?65000:200000);
+      try{
+      const response=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Pi-Control':'1'},body:JSON.stringify(data),signal:controller.signal});
       const result=await response.json();
       if(!response.ok)throw Error(result.error||'Lỗi kết nối');
       $('error').hidden=true;
       return result;
+      }finally{clearTimeout(timer);}
     }finally{busy=false;}
   })();
   // Serialize SSH requests without disabling navigation or input fields.
@@ -57,10 +61,10 @@ $('connectForm').onsubmit=async event=>{event.preventDefault();if(!abandonEdit()
 $('disconnect').onclick=async()=>{if(!abandonEdit())return;try{clearWifi();clearEditor();$('fileList').textContent='Đã ngắt kết nối';await request('/api/disconnect');connected=false;$('dot').classList.remove('online');$('status').textContent='Đã ngắt · dữ liệu cũ';$('sensorStatus').textContent='Đã ngắt kết nối — mẫu từ lần đọc trước';$('recordResult').hidden=true;$('player').pause();$('player').removeAttribute('src');}catch(e){showError(e);}};
 $('scan').onclick=async()=>{try{const data=await request('/api/devices');$('deviceList').replaceChildren();for(const [name,value] of Object.entries(data)){$('deviceList').append(node('h3',name+(value.ok?'':' · không đọc được')),node('pre',value.text||'(không có dữ liệu)'));}}catch(e){showError(e);}};
 $('run').onclick=async()=>{const command=$('command').value;if(!confirm('Chạy trên Pi với quyền SSH:\n'+command))return;try{const data=await request('/api/command',{command});$('output').textContent=data.message;}catch(e){$('output').textContent=e.message;showError(e);}};
-$('record').onclick=async()=>{const seconds=Number($('seconds').value);if(!Number.isInteger(seconds)||seconds<1||seconds>120){showError(Error('Chọn thời lượng từ 1 đến 120 giây'));return;}if(!confirm(`Thu âm ${seconds} giây từ mic Pi?`))return;$('recordResult').hidden=true;$('player').pause();$('recordStatus').textContent=`Đang thu ${seconds} giây… giữ Termux hoạt động.`;try{const data=await request('/api/record',{device:$('audioDevice').value,seconds,rate:Number($('rate').value)});const url=data.url+'?t='+Date.now();$('player').src=url;$('download').href=url;$('recordResult').hidden=false;$('recordStatus').textContent='Thu xong. Bạn có thể nghe hoặc tải WAV.';}catch(e){$('recordStatus').textContent='Thu âm thất bại';showError(e);}};
+$('record').onclick=async()=>{const seconds=Number($('seconds').value);if(!Number.isInteger(seconds)||seconds<1||seconds>120){showError(Error('Chọn thời lượng từ 1 đến 120 giây'));return;}if(!confirm(`Thu âm ${seconds} giây từ mic Pi?`))return;$('recordResult').hidden=true;$('player').pause();$('recordStatus').textContent=`Đang thu ${seconds} giây… giữ ứng dụng mở.`;try{const data=await request('/api/record',{device:$('audioDevice').value,seconds,rate:Number($('rate').value)});const url=data.url+'?t='+Date.now();$('player').src=url;$('download').href=url;$('recordResult').hidden=false;$('recordStatus').textContent='Thu xong. Bạn có thể nghe hoặc tải WAV.';}catch(e){$('recordStatus').textContent='Thu âm thất bại';showError(e);}};
 setInterval(()=>{if(lastSample&&Date.now()-lastSample>15000){$('dot').classList.remove('online');$('status').textContent='Mẫu hệ thống đã cũ · '+Math.floor((Date.now()-lastSample)/1000)+' giây';}if(!document.hidden)refresh();},5000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
-(async()=>{try{const response=await fetch('/api/config');const data=await response.json();if(!response.ok)throw Error(data.error);demo=data.demo;$('demo').hidden=!demo;for(const [key,value] of Object.entries(data.config)){const field=$('connectForm').elements.namedItem(key);if(field)field.value=value;}if(demo){connected=true;await refresh();}else page('settings');}catch(e){showError(e);}})();
+(async()=>{try{const response=await fetch('/api/config');const data=await response.json();if(!response.ok)throw Error(data.error);demo=data.demo;$('demo').hidden=!demo;for(const [key,value] of Object.entries(data.config)){const field=$('connectForm').elements.namedItem(key);if(field)field.value=value;}if(data.hosted){$('settingsButton').hidden=true;$('settings').hidden=true;connected=true;page('overview');await refresh();}else if(demo){connected=true;await refresh();}else page('settings');}catch(e){showError(e);}})();
 
 const measurementLabels={yaw:['Yaw','°'],pitch:['Pitch','°'],roll:['Roll','°'],yaw_deg:['Yaw','°'],pitch_deg:['Pitch','°'],roll_deg:['Roll','°'],pressure_pa:['Áp suất','Pa'],temperature_c:['Nhiệt độ','°C'],altitude_m:['Độ cao ước tính','m'],distance_mm:['Khoảng cách','mm'],distance_m:['Khoảng cách','m']};
 function renderSensors(telemetry){
